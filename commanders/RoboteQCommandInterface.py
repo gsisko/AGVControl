@@ -28,8 +28,9 @@ class RoboteqCommander:
     #submit command using supplied command QueryDictionary
     #TODO: all commanders should have internal dictionaries, so we will have to make sure that this is optimized to pass dictionary.
     def SubmitCommand(self, CommandType, tokenDictionary, token, *args):
-        CommandOutput = self.SubmitCommandString(tokenDictionary[token])
-        CommandOutput += " ".join(args)
+
+        CommandOutput = CommandType + tokenDictionary[token] + " " + " ".join(str(v) for v in args)
+
         return CommandOutput
 
     #command to call runtime commands

@@ -1,6 +1,7 @@
 from io import StringIO
 
 #Genreates Roboteqcommands for commanders to use
+#acts as base class for Roboteq commanders that actually interact with Roboteq Devices
 class RoboteqCommandGenerator:
     #RoboteqCommander must be constructed by providing a dictionary for all commandString
     #Arguments: _CommandDictionary - dictionary that lists all command tokens
@@ -44,6 +45,7 @@ class RoboteqCommandGenerator:
         return self.SubmitCommandString(self.CreateCommand('~', self.ConfigDictionary, token, *args))
 
 #General purpose commander on a StringIO object.
+#Can use this class to mock behavior of RoboteQ command classes in Unittests
 class RoboteqCommander(RoboteqCommandGenerator):
 
     #RoboteqCommander must be constructed by providing a dictionary for all commandString

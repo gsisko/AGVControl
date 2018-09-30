@@ -36,6 +36,9 @@ class TestRoboteqCommanderMethods(RoboteqCommanderFixture):
         self.assertEqual(self.commander.CreateCommand("!",{'_G':'G'},'_G', 1, 300), '!G 1 300')
         #test multiple arguments case
         self.assertEqual(self.commander.CreateCommand("!",{'_G':'G'},'_G', 1, 300, 300), '!G 1 300 300')
+        #Test Error handling of incorrect Token inputs
+        with self.assertRaises(KeyError):
+            self.commander.CreateCommand("!",{'_G':'G'},'_S3', 1, 300, 300)
 
     #test output of Getcommand
     #TODO: Implement context manager to clear TestStreamBuffer between tests

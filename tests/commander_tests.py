@@ -16,11 +16,17 @@ from RoboteQCommandInterface import RoboteqCommander
 class RoboteqCommanderFixture(unittest.TestCase):
 
 
+    #Function to emulate controller response to given command strings
+    def EvaluateControllerResponse(self, _CommandString):
+            return 'Place Holder Controller Response'
+
     TestStreamBuffer = StringIO()
-    TestStreamBuffer.readline = MagicMock(return_value = "-\n")
+
+    #Mock readline so that controller alwasy returns an incorrect response
+    TestStreamBuffer.readline = MagicMock(return_value = 'Place Holder Controller Response')
 
     def setUp(self):
-        self.commander = RoboteqCommander({'_G':'G', '_M':'M'}, {'_A':'A'}, None, self.TestStreamBuffer)
+        self.commander = RoboteqCommander({'_G':'G', '_M':'M'}, {'_A':'A'}, {'_MMOD':'MMOD'}, self.TestStreamBuffer)
 
 
 class TestRoboteqCommanderMethods(RoboteqCommanderFixture):
@@ -36,14 +42,22 @@ class TestRoboteqCommanderMethods(RoboteqCommanderFixture):
 
 
     def test_getValue(self):
-        self.assertEqual(self.commander.getValue('_A', 1), '-\n')
+        self.assertEqual(self.commander.getValue('_A', 1), self.EvaluateControllerResponse('?A 1'))
         self.assertEqual(self.TestStreamBuffer.getvalue().splitlines().pop(), '?A 1')
 
 
     def test_setCommand(self):
-        self.commander.setCommand('_G', 1, 300)
+        self.assertEqual(self.commander.setCommand('_G', 1, 300), self.EvaluateControllerResponse('!G 1 300'))
         self.assertEqual(self.TestStreamBuffer.getvalue().splitlines().pop(),'!G 1 300')
 
+
+    def test_setConfig(self):
+        self.assertEqual(self.commander.setConfig('_MMOD', 1), self.EvaluateControllerResponse('^MMOD 1'))
+        self.assertEqual(self.TestStreamBuffer.getvalue().splitlines().pop(), '^MMOD 1')
+
+    def test_getConfig(self):
+        self.assertEqual(self.commander.getConfig('_MMOD'), self.EvaluateControllerResponse('~MMOD'))
+        self.assertEqual(self.TestStreamBuffer.getvalue().splitlines().pop(), '~MMOD')
 
 if __name__ == '__main__':
         unittest.main()

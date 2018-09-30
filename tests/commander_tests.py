@@ -9,7 +9,7 @@ from unittest.mock import patch
 from unittest.mock import MagicMock
 
 #import Commander for testing
-from RoboteQCommandInterface import RoboteqCommander
+from RoboteqCommand import RoboteqCommander
 
 
 

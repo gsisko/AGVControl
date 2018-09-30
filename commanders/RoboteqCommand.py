@@ -4,9 +4,6 @@ from io import StringIO
 class RoboteqCommander:
 
 
-    #Define output IO outputStream
-    outputStream = StringIO()
-
 
     #RoboteqCommander must be constructed by providing a dictionary for all commandString
     #Arguments: _CommandDictionary - dictionary that lists all command tokens

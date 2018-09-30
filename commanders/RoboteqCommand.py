@@ -1,36 +1,20 @@
 from io import StringIO
 
-#converts roboteq Commands to
-class RoboteqCommander:
-
-
-
+#Genreates Roboteqcommands for commanders to use
+class RoboteqCommandGenerator:
     #RoboteqCommander must be constructed by providing a dictionary for all commandString
     #Arguments: _CommandDictionary - dictionary that lists all command tokens
     #           _QueryDictionary - dictionary that lists all query tokens
     #           _ConfigDictionary - dictionary that lists all config tokens
-    #           _outputStream - IO stream that the Commander should interact with.
-    #                           This output stream should be considered as an input in Roborun+
-    #TODO: create dictionary structure that can check whether supplied command aruments are valid
-    def __init__(self, _CommandDictionary, _QueryDictionary, _ConfigDictionary, _outputStream ):
+    def __init__(self, _CommandDictionary, _QueryDictionary, _ConfigDictionary):
         self.CommandDictionary = _CommandDictionary
         self.QueryDictionary = _QueryDictionary
         self.ConfigDictionary = _ConfigDictionary
 
-        self.outputStream = _outputStream
-
-        return
-
-    #Function to return command string to Roboteq Device
-    #Should be redefined in inherited classes to interface over any port
-    #Aruments: commandString - string commander should send to RoboteQ Device
-    #Returns: string that will execute on roboteq Device. Should be redefined in derived classes
     def SubmitCommandString(self, commandString):
-        #Submits to user supplied outputStream
-        #may want to save this functionality for derived classes
-        self.outputStream.write(commandString + "\n")
-        controllerResponse =  self.outputStream.readline()
-        return controllerResponse
+        #Prints Command String
+        #place holder function to be overwritten in dereived classes
+        return commandString
 
     #TODO: catch any error where an invalid token is presented
 
@@ -58,3 +42,31 @@ class RoboteqCommander:
     #function to get configuration settings
     def getConfig(self, token, *args):
         return self.SubmitCommandString(self.CreateCommand('~', self.ConfigDictionary, token, *args))
+
+#General purpose commander on a StringIO object.
+class RoboteqCommander(RoboteqCommandGenerator):
+
+    #RoboteqCommander must be constructed by providing a dictionary for all commandString
+    #Arguments: _CommandDictionary - dictionary that lists all command tokens
+    #           _QueryDictionary - dictionary that lists all query tokens
+    #           _ConfigDictionary - dictionary that lists all config tokens
+    #           _outputStream - IO stream that the Commander should interact with.
+    #                           This output stream should be considered as an input in Roborun+
+    #TODO: create dictionary structure that can check whether supplied command aruments are valid
+    def __init__(self, _CommandDictionary, _QueryDictionary, _ConfigDictionary, _outputStream ):
+        super(RoboteqCommander, self).__init__(_CommandDictionary, _QueryDictionary, _ConfigDictionary)
+
+        self.outputStream = _outputStream
+
+        return
+
+    #Function to return command string to Roboteq Device
+    #Should be redefined in inherited classes to interface over any port
+    #Aruments: commandString - string commander should send to RoboteQ Device
+    #Returns: string that will execute on roboteq Device. Should be redefined in derived classes
+    def SubmitCommandString(self, commandString):
+        #Submits to user supplied outputStream
+        #may want to save this functionality for derived classes
+        self.outputStream.write(commandString + "\n")
+        controllerResponse =  self.outputStream.readline()
+        return controllerResponse

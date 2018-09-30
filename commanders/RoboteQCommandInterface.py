@@ -42,8 +42,7 @@ class RoboteqCommander:
     #TODO: all commanders should have internal dictionaries, so we will have to make sure that this is optimized to pass dictionary.
     def CreateCommand(self, CommandType, tokenDictionary, token, *args):
 
-        CommandOutput = []
-        CommandOutput.append(tokenDictionary[token])
+        CommandOutput = [tokenDictionary[token]]
         CommandOutput.extend(str(v) for v in args)
         return CommandType + ' '.join(CommandOutput)
 

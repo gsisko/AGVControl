@@ -32,7 +32,7 @@ class RoboteqCommander:
         #Submits to user supplied outputStream
         #may want to save this functionality for derived classes
         self.outputStream.write(commandString + "\n")
-        controllerResponse =self.outputStream.readline()
+        controllerResponse =  self.outputStream.readline()
         return controllerResponse
 
     #TODO: catch any error where an invalid token is presented
@@ -42,23 +42,23 @@ class RoboteqCommander:
     #TODO: all commanders should have internal dictionaries, so we will have to make sure that this is optimized to pass dictionary.
     def CreateCommand(self, CommandType, tokenDictionary, token, *args):
 
-        CommandOutput = CommandType + tokenDictionary[token] + " " + " ".join(str(v) for v in args)
-
-        return CommandOutput
+        CommandOutput = []
+        CommandOutput.append(tokenDictionary[token])
+        CommandOutput.extend(str(v) for v in args)
+        return CommandType + ' '.join(CommandOutput)
 
     #command to call runtime commands
     def setCommand(self, token, *args):
-        return self.SubmitCommandString(self.CreateCommand("!" ,self.CommandDictionary, token, *args))
-
+        return self.SubmitCommandString(self.CreateCommand('!' ,self.CommandDictionary, token, *args))
 
     #command to call runtime queries
     def getValue(self, token, *args):
-        return self.SubmitCommandString(self.CreateCommand("?" ,self.QueryDictionary, token, *args))
+        return self.SubmitCommandString(self.CreateCommand('?',self.QueryDictionary, token, *args))
 
     #command to set configuration settings
     def setConfig(self, token, *args):
-        return
+        return self.SubmitCommandString(self.CreateCommand('^', self.ConfigDictionary, token, *args))
 
     #function to get configuration settings
     def getConfig(self, token, *args):
-        return
+        return self.SubmitCommandString(self.CreateCommand('~', self.ConfigDictionary, token, *args))

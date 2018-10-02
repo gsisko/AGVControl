@@ -33,11 +33,12 @@ class RoboteqSerialCommander(RoboteqCommand.RoboteqCommandGenerator):
     #Function to return command string to Roboteq Device
     #Should be redefined in inherited classes to interface over any port
     #Aruments: commandString - string commander should send to RoboteQ Device
-    #Returns: string that will execute on roboteq Device. Should be redefined in derived classes
+    #Returns: Will retrun a string that is the response from the Roboteq Device
+    #TODO Iplement exception raising if there is no response from Roboteq Device, or if somehting else goes wrong with the serial connection.
     def SubmitCommandString(self, commandString):
         #Submits to user supplied outputStream
         #may want to save this functionality for derived classes
         outputString = commandString + '_'
         self.outputStream.write(outputString.encode('utf-8'))    #Roboteq Devices accept the underscore charcter as a command terminator
-        controllerResponse =  str(self.outputStream.readline())
+        controllerResponse =  self.outputStream.readline().decode('utf-8').split('\r')[-2] #TODO fix even more of this split() ugliness
         return controllerResponse

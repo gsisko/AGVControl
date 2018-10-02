@@ -15,7 +15,7 @@ class RoboteqSerialCommander(RoboteqCommand.RoboteqCommandGenerator):
     #                           This output stream should be considered as a serial port on a computer
     #TODO: create dictionary structure that can check whether supplied command aruments are valid
     def __init__(self, _CommandDictionary, _QueryDictionary, _ConfigDictionary, _SerialStream ):
-        super(RoboteqCommander, self).__init__(_CommandDictionary, _QueryDictionary, _ConfigDictionary)
+        super().__init__(_CommandDictionary, _QueryDictionary, _ConfigDictionary)
 
         self.outputStream = _SerialStream
 
@@ -24,7 +24,7 @@ class RoboteqSerialCommander(RoboteqCommand.RoboteqCommandGenerator):
     #Function decorator to create serial object on the fly using provided settings
     @classmethod
     def connectOverRS232(cls, _CommandDictionary, _QueryDictionary, _ConfigDictionary,*SerialArgs):
-        serialPort = serial.Serial(*SerialArgs)
+        serialPort = serial.Serial(*SerialArgs, timeout = 1)  #specify default timeout of 1 sec using timeout keyord arg
         Serialcommander1 = cls(_CommandDictionary, _QueryDictionary, _ConfigDictionary, serialPort)
         return Serialcommander1
 
@@ -37,6 +37,7 @@ class RoboteqSerialCommander(RoboteqCommand.RoboteqCommandGenerator):
     def SubmitCommandString(self, commandString):
         #Submits to user supplied outputStream
         #may want to save this functionality for derived classes
-        self.outputStream.write(commandString + '_')    #Roboteq Devices accept the underscore charcter as a command terminator
-        controllerResponse =  self.outputStream.readline() #TODO make sure some sort of timeout is specified
+        outputString = commandString + '_'
+        self.outputStream.write(outputString.encode('utf-8'))    #Roboteq Devices accept the underscore charcter as a command terminator
+        controllerResponse =  str(self.outputStream.readline())
         return controllerResponse

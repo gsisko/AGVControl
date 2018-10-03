@@ -1,2 +1,2 @@
-# AGVControl
-This repository is for constructing an AGV control software project in Python
+# RoboteQ Python
+This repository is for constructing an set of Python modules for Communicating with RoboteQ Motor controllers and devices.

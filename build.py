@@ -16,3 +16,4 @@ def initialize(project):
 
     project.build_depends_on('mockito')
     project.build_depends_on('coverage')
+    project.build_depends_on('CppHeaderParser')

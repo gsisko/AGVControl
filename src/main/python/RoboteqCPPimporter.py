@@ -15,3 +15,5 @@ print("CppHeaderParser view of %s"%cppHeader)
 print("\n#defines are:")
 for define in cppHeader.defines:
     print(" %s"%define)
+
+####Defines are formated as keys that will have to be formatted like '${:02X}'.format(value)

@@ -10,15 +10,16 @@ import CppHeaderParser
 class RoboteqCommandImporter():
     #We have to give the importer the source of all the commands to be imported
     #This can be a file name or a
-    def __init__(_importPath):
+    def __init__(self, _importPath):
         self.Path = _importPath
 
     #gernates command dictionary from printed dictionary value, should be overwriten
-
-    def generateCommandDict():
+    def generateCommandDict(self):
         with open(self.Path, 'r') as Source:
             commandDict = eval(Source.read())
-            return
+            #TODO Check that code actually evaluates to a dictionary
+            #TODO will have to change If I can't build it into a custom datastructure.
+            return commandDict
 
     #This is a class mehtod that you can use to automatically import a source
     #without keeping the importer arround
@@ -28,23 +29,26 @@ class RoboteqCommandImporter():
         return Importer.generateCommandDict()
 
     #TODO add methods to merge multiple sources, specify imports from different devices
+    #TODO consider mehtods to export dictionaries
+    #TODO Dictionaries should eventually be replaced with custom datastructure that are special for Roboteq commands. Should refactor so that all code uses This
 
 
-class RoboteqCPPImporter
+#sub class of Roboteq Comand importer for importing from header files from the RoboteQ C++ install_dependencies
+#In these headers, commands are given as a series of defines in the form of
+# #define CMDSTR BASE10HEXID
+# CMDSTR: the command's roboteq identity string. This is the string you use in microbasicself.
+# BASE10HEXID: the command's hex id, but represented in decimal.
+class RoboteqCPPImporter(RoboteqCommandImporter)
 
-    def generateCommandDict():
+    def generateCommandDict(self):
 
         try:
-            cppHeader = CppHeaderParser.CppHeader("Constants.h") #TODO consider reworking this module to separate out StringIO object to use as source
+            cppHeader = CppHeaderParser.CppHeader(self.Path)
         except CppHeaderParser.CppParseError as e:
-            print(e)
-            sys.exit(1)
+            print('CppHeaderParser encountered Error:' + e)
 
-        print("CppHeaderParser view of %s"%cppHeader)
+        RoboteqComandDict = dict()
 
-        RoboteqCommandDict = dict()
-
-        print("\n#defines are:")
         for define in cppHeader.defines:
             command = define.split(' ')
             if len(command) == 2:
@@ -54,6 +58,5 @@ class RoboteqCPPImporter
                  #Their identity string is defined as a decimal representation of their HEX valueself.
                  #we need to do all of that conversion here in order to make this work with Roboteq Command Generator.
                 RoboteqCommandDict[command[0]] = '${:02x}'.format(int(command[1])) #using .format() instead of fstring to match formatting in RoboteQ CPP API
-        print(RoboteqCommandDict)
 
-        ####Defines are formated as keys that will have to be formatted like '${:02X}'.format(value)
+        return RoboteqCommandDict

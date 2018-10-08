@@ -4,6 +4,25 @@ sys.path = ["../"] + sys.path   #set sys in order to be able to locate header fi
 
 import CppHeaderParser
 
+#Blank base class for RoboteqCPPImporter to inherit from
+#eventually, we will want to
+class RoboteqCommandImporter():
+    #We have to give the importer the source of all the commands to be imported
+    #This can be a file name or a
+    def __init__(_importSource):
+        self.Source = _importSource
+
+    #gernates command dictionary, should be overwriten
+    #TODO Change Default behavior of class
+    def generateCommandDict():
+        return
+
+    #This is a class mehtod that you can use to automatically import a
+
+class RoboteqCPPImporter
+
+
+
 try:
     cppHeader = CppHeaderParser.CppHeader("Constants.h")
 except CppHeaderParser.CppParseError as e:

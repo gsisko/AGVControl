@@ -12,8 +12,14 @@ except CppHeaderParser.CppParseError as e:
 
 print("CppHeaderParser view of %s"%cppHeader)
 
+RoboteqCommandDict = dict()
+
 print("\n#defines are:")
 for define in cppHeader.defines:
-    print(" %s"%define)
+    command = define.split(' ')
+    if len(command) == 2:
+        RoboteqCommandDict[command[0]] = command[1] #TODO try to optimize this code to perform proper data access for fast operation.
+
+print(RoboteqCommandDict)
 
 ####Defines are formated as keys that will have to be formatted like '${:02X}'.format(value)

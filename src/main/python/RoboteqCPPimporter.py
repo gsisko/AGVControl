@@ -5,7 +5,7 @@ sys.path = ["../"] + sys.path   #set sys in order to be able to locate header fi
 import CppHeaderParser
 
 #Blank base class for RoboteqCPPImporter to inherit from
-#eventually, we will want to
+#TODO move Roboteq Importer to its own module
 class RoboteqCommandImporter():
     #We have to give the importer the source of all the commands to be imported
     #This can be a file name or a
@@ -25,7 +25,7 @@ class RoboteqCommandImporter():
         return Importer.generateCommandDict()
 
     #TODO add methods to merge multiple sources, specify imports from different devices
-        
+
 
 class RoboteqCPPImporter
 

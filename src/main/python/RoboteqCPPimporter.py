@@ -15,9 +15,17 @@ class RoboteqCommandImporter():
     #gernates command dictionary, should be overwriten
     #TODO Change Default behavior of class
     def generateCommandDict():
-        return
+        return self.Source
 
-    #This is a class mehtod that you can use to automatically import a
+    #This is a class mehtod that you can use to automatically import a source
+    #without keeping the importer arround
+    @classmethod
+    def RoboteqImport(cls, _importSource):
+        Importer = cls(_importSource)
+        return Importer.generateCommandDict()
+
+    #TODO add methods to merge multiple sources, specify imports from different devices
+        
 
 class RoboteqCPPImporter
 

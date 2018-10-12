@@ -42,7 +42,7 @@ class RoboteqCPPImporter(RoboteqCommandImporter):
     CMDSTR: the command's roboteq identity string. This is the string you use in microbasic.
     BASE10HEXID: the command's hex id, but represented in decimal."""
     def __init__(self, _importPath):
-        super(_importPath)
+        super(RoboteqCPPImporter, self).__init__(_importPath)
 
         try:
             cppHeader = CppHeaderParser.CppHeader(self.Path)

@@ -4,7 +4,7 @@ sys.path = ["../"] + sys.path   #set sys in order to be able to locate header fi
 
 import CppHeaderParser
 
- import it directly
+
 #TODO move Roboteq Importer to its own module
 class RoboteqCommandImporter():
     """Blank base class for all file importer to inherit from
@@ -35,9 +35,9 @@ class RoboteqCommandImporter():
 
 
 
-class RoboteqCPPImporter(RoboteqCommandImporter)
-"""#sub class of Roboteq Comand importer for importing from header files from the RoboteQ C++ install_dependencies
-   In these headers, commands are given as a series of defines in the form of:
+class RoboteqCPPImporter(RoboteqCommandImporter):
+    """#sub class of Roboteq Comand importer for importing from header files from the RoboteQ C++ install_dependencies
+    In these headers, commands are given as a series of defines in the form of:
     #define CMDSTR BASE10HEXID
     CMDSTR: the command's roboteq identity string. This is the string you use in microbasic.
     BASE10HEXID: the command's hex id, but represented in decimal."""
@@ -45,7 +45,7 @@ class RoboteqCPPImporter(RoboteqCommandImporter)
 
         try:
             cppHeader = CppHeaderParser.CppHeader(self.Path)
-        except CppHeaderParser.CppParseError as e:
+       except CppHeaderParser.CppParseError as e:
             print('CppHeaderParser encountered Error:' + e)
 
         RoboteqComandDict = dict()

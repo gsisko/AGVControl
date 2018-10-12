@@ -1,7 +1,7 @@
 #system imports to provide proper test execution
 import sys, os
 from io import StringIO
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir) + "\\commanders"))
+#sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir) + "\\commanders"))
 
 #testing module imports
 import unittest

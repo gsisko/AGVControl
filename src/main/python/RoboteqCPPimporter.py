@@ -41,16 +41,21 @@ class RoboteqCPPImporter(RoboteqCommandImporter):
     #define CMDSTR BASE10HEXID
     CMDSTR: the command's roboteq identity string. This is the string you use in microbasic.
     BASE10HEXID: the command's hex id, but represented in decimal."""
-    def generateCommandDict(self):
+    def __init__(self, _importPath):
+        super(_importPath)
 
         try:
             cppHeader = CppHeaderParser.CppHeader(self.Path)
         except CppHeaderParser.CppParseError as e:
             print('CppHeaderParser encountered Error:' + e)
 
+    def generateCommandDict(self):
+
+
+
         RoboteqCommandDict = dict()
 
-        for define in cppHeader.defines:
+        for define in self.cppHeader.defines:
             command = define.split(' ')
             if len(command) == 2:
                  #TODO try to optimize this code to perform proper data access for fast operation.

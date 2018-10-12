@@ -1,6 +1,7 @@
 #system imports to provide proper test execution
 import sys, os
 from io import StringIO
+#for pre build tests
 #sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir) + "\\commanders"))
 
 #testing module imports

@@ -45,13 +45,11 @@ class RoboteqCPPImporter(RoboteqCommandImporter):
         super(RoboteqCPPImporter, self).__init__(_importPath)
 
         try:
-            cppHeader = CppHeaderParser.CppHeader(self.Path)
+            self.cppHeader = CppHeaderParser.CppHeader(self.Path)
         except CppHeaderParser.CppParseError as e:
             print('CppHeaderParser encountered Error:' + e)
 
     def generateCommandDict(self):
-
-
 
         RoboteqCommandDict = dict()
 

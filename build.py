@@ -17,6 +17,7 @@ def initialize(project):
 
     project.set_property_if_unset("pytest_coverage_break_build_threshold", 50)
 
+    project.set_property("pytest_coverage_html", True) #get html coverage report
     #project.set_property('coverage_reset_modules', True)
     #project.set_property("coverage_break_build", False) # default is True
 

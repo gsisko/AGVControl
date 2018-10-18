@@ -1,18 +1,13 @@
 from io import StringIO
 from enum import Enum, auto
 
-class RoboteqCommandType(Enum):
-    """enum for roboteq command type, please consult RoboteQ User Manual, Section 19"""
-    RUN = auto()
-    QRY = auto()
-    CFG = auto()
 
 #TODO consider changing name of this away from the command since it generates confusing conflict with runtime command
 class RoboteqCommand:
     """Class to use as generic class for a roboteq command"""
-    __slots__ = ('Identity','HexID','Type','Name','Function','Aliases')
+    __slots__ = ('Identity','HexID','Name','Function','Aliases')
 
-    def __init__(self, _Identity, _HexID, _Type, _Name = '', _Function = '', _Aliases = []):
+    def __init__(self, _Identity, _HexID, _Name = '', _Function = '', _Aliases = []):
         #TODO consider making Requied underlying values immutable after they are initialized, or at least private
         """Constructor: A Roboteq Command
         Required Values:
@@ -34,10 +29,6 @@ class RoboteqCommand:
             self.HexID = _HexID
         else:
             raise TypeError("HexID must be a positive number 255 or below")
-        if isinstance(_Type, RoboteqCommandType):
-            self.Type = _Type
-        else:
-            raise TypeError("Type must be a Roboteq Command Type")
 
         self.Name = _Name #TODO consider manipulating __name__ from these
         self.Function = _Function
@@ -49,8 +40,14 @@ class RoboteqCommand:
         for attribute in self.__slots__:
             yield attribute, getattr(self, attribute)
 
+class RuntimeCommand(RoboteqCommand):
+    pass
 
+class RuntimeQuery(RoboteqCommand):
+    pass
 
+class ConfigSetting(RoboteqCommand):
+    pass
 
 
 #Genreates Roboteqcommands for commanders to use

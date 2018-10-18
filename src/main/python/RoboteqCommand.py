@@ -1,4 +1,38 @@
 from io import StringIO
+from enum import Enum, auto
+
+class RoboteqCommandType(enum):
+    """enum for roboteq command type, please consult RoboteQ User Manual, Section 19"""
+    CMD = auto()
+    QRY = auto()
+    CFG = auto()
+
+
+class RoboteqCommand:
+    """Class to use as generic class for a roboteq command"""
+    __slots__ = (,'Alias','HexID','Type','Name','Function')
+
+    def __init__(self, _Alias, _HexID, _Type, _Name = '', _Funciton = ''):
+        if isinstance(_Alias, str):
+            self.Alias = _Alias
+        else:
+            raise TypeError("Alias must be a String")
+            #TODO check that Alias is all CppHeaderParser
+            #TODO add support for multiple aliases
+        if isinstance(_HexID, int) and _HexID < 255:
+            self.HexID = _HexID
+        else:
+            raise TypeError("HexID must be a positive number 255 or below")
+    def __iter__(self):
+        return iter(self.__slots__)
+
+    def items(self):
+        for attribute in self.__slots__:
+            yield attribute, getattr(self, attribute)
+
+
+
+
 
 #Genreates Roboteqcommands for commanders to use
 #acts as base class for Roboteq commanders that actually interact with Roboteq Devices
@@ -48,14 +82,16 @@ class RoboteqCommandGenerator:
 #Can use this class to mock behavior of RoboteQ command classes in Unittests
 class RoboteqCommander(RoboteqCommandGenerator):
 
-    #RoboteqCommander must be constructed by providing a dictionary for all commandString
-    #Arguments: _CommandDictionary - dictionary that lists all command tokens
-    #           _QueryDictionary - dictionary that lists all query tokens
-    #           _ConfigDictionary - dictionary that lists all config tokens
-    #           _outputStream - IO stream that the Commander should interact with.
-    #                           This output stream should be considered as an input in Roborun+
+
     #TODO: create dictionary structure that can check whether supplied command aruments are valid
     def __init__(self, _CommandDictionary, _QueryDictionary, _ConfigDictionary, _outputStream ):
+        """RoboteqCommander must be constructed by providing a dictionary for all commandString
+            Arguments: _CommandDictionary - dictionary that lists all command tokens
+                    _QueryDictionary - dictionary that lists all query tokens
+                    _ConfigDictionary - dictionary that lists all config tokens
+                    _outputStream - IO stream that the Commander should interact with.
+                                   This output stream should be considered as an input in Roborun+"""
+
         super(RoboteqCommander, self).__init__(_CommandDictionary, _QueryDictionary, _ConfigDictionary)
 
         self.outputStream = _outputStream

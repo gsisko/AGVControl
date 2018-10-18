@@ -3,18 +3,29 @@ from enum import Enum, auto
 
 class RoboteqCommandType(enum):
     """enum for roboteq command type, please consult RoboteQ User Manual, Section 19"""
-    CMD = auto()
+    RUN = auto()
     QRY = auto()
     CFG = auto()
 
-
+#TODO consider changing name of this away from the command since it generates confusing conflict with runtime command
 class RoboteqCommand:
     """Class to use as generic class for a roboteq command"""
-    __slots__ = (,'Alias','HexID','Type','Name','Function')
+    __slots__ = ('Identity','HexID','Type','Name','Function','Aliases')
 
-    def __init__(self, _Alias, _HexID, _Type, _Name = '', _Funciton = ''):
-        if isinstance(_Alias, str):
-            self.Alias = _Alias
+    def __init__(self, _Identity, _HexID, _Type, _Name = '', _Funciton = '', _Aliases = []):
+        #TODO consider making Requied underlying values immutable after they are initialized, or at least private
+        """Constructor: A Roboteq Command
+        Required Values:
+            Identity: Unique Identity String
+            HexID: Underlying Hex value for Command
+            Type: Command type, either a runtime command, a runtimequery, or a configuration command
+
+        Optional Arguments:
+            Name: Verbose name of Command
+            Function: Name of argument to use as function name
+            Aliases: Other working aliases that command can be called by in MicroBasic"""                   
+        if isinstance(_Identity, str):
+            self.Identity = _Idenity
         else:
             raise TypeError("Alias must be a String")
             #TODO check that Alias is all CppHeaderParser
@@ -23,6 +34,14 @@ class RoboteqCommand:
             self.HexID = _HexID
         else:
             raise TypeError("HexID must be a positive number 255 or below")
+        if isinstance(_Type, RoboteqCommandType):
+            self.Type = _Type
+        else:
+            raise TypeError("Type must be a Roboteq Command Type")
+
+        self.Name = _Name #TODO consider manipulating __name__ from these
+        self.Function = _Function
+
     def __iter__(self):
         return iter(self.__slots__)
 

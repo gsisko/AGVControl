@@ -1,7 +1,7 @@
 from io import StringIO
 from enum import Enum, auto
 
-class RoboteqCommandType(enum):
+class RoboteqCommandType(Enum):
     """enum for roboteq command type, please consult RoboteQ User Manual, Section 19"""
     RUN = auto()
     QRY = auto()
@@ -23,7 +23,7 @@ class RoboteqCommand:
         Optional Arguments:
             Name: Verbose name of Command
             Function: Name of argument to use as function name
-            Aliases: Other working aliases that command can be called by in MicroBasic"""                   
+            Aliases: Other working aliases that command can be called by in MicroBasic"""
         if isinstance(_Identity, str):
             self.Identity = _Idenity
         else:

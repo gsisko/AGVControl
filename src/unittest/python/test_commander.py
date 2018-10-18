@@ -10,7 +10,7 @@ from unittest.mock import patch
 from unittest.mock import MagicMock
 
 #import Commander for testing
-from RoboteqCommand import RoboteqCommand, RoboteqCommander, RoboteqCommandType
+from RoboteqCommand import RoboteqCommand, RoboteqCommander
 
 
 
@@ -27,9 +27,9 @@ class RoboteqCommanderFixture(unittest.TestCase):
     TestStreamBuffer.readline = MagicMock(return_value = 'Place Holder Controller Response')
 
     def setUp(self):
-        self.gocommand = RoboteqCommand('G', 0, RoboteqCommandType.RUN)
-        self.ampsquery = RoboteqCommand('A', 0, RoboteqCommandType.QRY)
-        self.operatingconfig = RoboteqCommand('MMOD', 0, RoboteqCommandType.CFG)
+        self.gocommand = RoboteqCommand('G', 0)
+        self.ampsquery = RoboteqCommand('A', 0)
+        self.operatingconfig = RoboteqCommand('MMOD', 0)
         self.commander = RoboteqCommander({'_G': self.gocommand }, {'_A': self.ampsquery}, {'_MMOD': self.operatingconfig}, self.TestStreamBuffer)
 
 

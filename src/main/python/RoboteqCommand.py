@@ -12,7 +12,7 @@ class RoboteqCommand:
     """Class to use as generic class for a roboteq command"""
     __slots__ = ('Identity','HexID','Type','Name','Function','Aliases')
 
-    def __init__(self, _Identity, _HexID, _Type, _Name = '', _Funciton = '', _Aliases = []):
+    def __init__(self, _Identity, _HexID, _Type, _Name = '', _Function = '', _Aliases = []):
         #TODO consider making Requied underlying values immutable after they are initialized, or at least private
         """Constructor: A Roboteq Command
         Required Values:
@@ -25,7 +25,7 @@ class RoboteqCommand:
             Function: Name of argument to use as function name
             Aliases: Other working aliases that command can be called by in MicroBasic"""
         if isinstance(_Identity, str):
-            self.Identity = _Idenity
+            self.Identity = _Identity
         else:
             raise TypeError("Alias must be a String")
             #TODO check that Alias is all CppHeaderParser
@@ -77,7 +77,7 @@ class RoboteqCommandGenerator:
     #TODO: all commanders should have internal dictionaries, so we will have to make sure that this is optimized to pass dictionary.
     def CreateCommand(self, CommandType, tokenDictionary, token, *args):
 
-        CommandOutput = [tokenDictionary[token]]
+        CommandOutput = [tokenDictionary[token].Identity]
         CommandOutput.extend(str(v) for v in args)
         return CommandType + ' '.join(CommandOutput)
 

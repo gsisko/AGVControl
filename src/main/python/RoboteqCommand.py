@@ -69,7 +69,7 @@ class RoboteqCommandGenerator:
     def __init__(self, _TokenList):
         self.TokenList = _TokenList
 
-    def ConstructOutput(self, CommandType, token, *args):
+    def _ConstructOutput(self, CommandType, token, *args):
         """Generates arguments for format Output"""
         output = ''
         try:
@@ -81,15 +81,16 @@ class RoboteqCommandGenerator:
     #Creates command that can be interpreted by Roboteq device
     #command should match what user inputs in console tab of Roborun+
     #TODO: all commanders should have internal dictionaries, so we will have to make sure that this is optimized to pass dictionary.
-    def FormatOutput(self, CommandType, tokenString, *args):
+    def _FormatOutput(self, _args):
         """Generates arguments for SubmitOuput Output"""
+        CommandType, tokenString, *args = _args
         CommandOutput = [tokenString]
         CommandOutput.extend(str(v) for v in args)
         return CommandType + ' '.join(CommandOutput)
 
 
 
-    def SubmitOutput(self, commandString):
+    def _SubmitOutput(self, commandString):
         """Submits output to controller"""
         #Prints Command String
         #place holder function to be overwritten in dereived classes
@@ -107,8 +108,9 @@ class RoboteqCommander(RoboteqCommandGenerator):
 
 
     #TODO: create dictionary structure that can check whether supplied command aruments are valid
+    #TODO include safety for checking if read/write is allowed for output stream.
     def __init__(self, _TokenList, _outputStream ):
-        """Roboteq Commander serves as the generic commander implementation, and operates on a standard string IO output. It also provides the generic commands for differentiating between different kinds of command output."""
+        """Roboteq Commander serves as the generic commander implementation for serial streamed commands to the a Roboteq Device. It by default outputs everythingto a generic IO stream using read/write python paradigms"""
 
         super(RoboteqCommander, self).__init__(_TokenList)
 
@@ -118,22 +120,22 @@ class RoboteqCommander(RoboteqCommandGenerator):
 
     #command to call runtime commands
     def setCommand(self, token, *args):
-        return self.SubmitOutput(self.FormatOutput(*self.ConstructOutput('!' , token, *args)))
+        return self.SubmitOutput(self._FormatOutput(self._ConstructOutput('!' , token, *args)))
 
     #command to call runtime queries
     def getValue(self, token, *args):
         submitToken = self.TokenList[token].Identity
-        return self.SubmitOutput(self.FormatOutput('?', submitToken, *args))
+        return self.SubmitOutput(self._FormatOutput(self._ConstructOutput('?', token, *args)))
 
     #command to set configuration settings
     def setConfig(self, token, *args):
         submitToken = self.TokenList[token].Identity
-        return self.SubmitOutput(self.FormatOutput('^',  submitToken, *args))
+        return self.SubmitOutput(self._FormatOutput(self._ConstructOutput('^',  token, *args)))
 
     #function to get configuration settings
     def getConfig(self, token, *args):
         submitToken = self.TokenList[token].Identity
-        return self.SubmitOutput(self.FormatOutput('~',  submitToken, *args))
+        return self.SubmitOutput(self._FormatOutput(self._ConstructOutput('~',  token, *args)))
 
     #Function to return command string to Roboteq Device
     #Should be redefined in inherited classes to interface over any port

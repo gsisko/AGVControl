@@ -38,11 +38,11 @@ class TestRoboteqCommanderMethods(RoboteqCommanderFixture):
     def test_SubmitCommand(self):
 
         #test Cases for command cosntruction
-        self.assertEqual(self.commander.ConstructOutput('!','_G', 1, 300), ('!', 'G', 1, 300))
+        self.assertEqual(self.commander._ConstructOutput('!','_G', 1, 300), ('!', 'G', 1, 300))
         #test sending a normal motor CommandDictionary
-        self.assertEqual(self.commander.FormatOutput("!",'G', 1, 300), '!G 1 300')
+        self.assertEqual(self.commander._FormatOutput(("!",'G', 1, 300)), '!G 1 300')
         #test multiple arguments case
-        self.assertEqual(self.commander.FormatOutput("!",'G', 1, 300, 300), '!G 1 300 300')
+        self.assertEqual(self.commander._FormatOutput(("!",'G', 1, 300, 300)), '!G 1 300 300')
 
 
     #test output of Getcommand

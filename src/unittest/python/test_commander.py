@@ -40,7 +40,7 @@ class TestRoboteqCommanderMethods(RoboteqCommanderFixture):
         self.assertEqual(self.commander.CreateCommand("!",'G', 1, 300), '!G 1 300')
         #test multiple arguments case
         self.assertEqual(self.commander.CreateCommand("!",'G', 1, 300, 300), '!G 1 300 300')
-        
+
 
     #test output of Getcommand
     #TODO: Implement context manager to clear TestStreamBuffer between tests
@@ -63,6 +63,8 @@ class TestRoboteqCommanderMethods(RoboteqCommanderFixture):
     def test_getConfig(self):
         self.assertEqual(self.commander.getConfig('_MMOD'), self.EvaluateControllerResponse('~MMOD'))
         self.assertEqual(self.TestStreamBuffer.getvalue().splitlines().pop(), '~MMOD')
+
+#TODO add sections for each type of serial commander
 
 if __name__ == '__main__':
         unittest.main()

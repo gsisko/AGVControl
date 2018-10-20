@@ -10,7 +10,7 @@ from unittest.mock import patch
 from unittest.mock import MagicMock
 
 #import Commander for testing
-from RoboteqCommand import RoboteqCommand, RoboteqCommander
+from RoboteqCommand import RoboteqCommand, RoboteqCommandLibrary, RoboteqCommander, RuntimeCommand, RuntimeQuery, ConfigSetting
 
 
 
@@ -27,22 +27,20 @@ class RoboteqCommanderFixture(unittest.TestCase):
     TestStreamBuffer.readline = MagicMock(return_value = 'Place Holder Controller Response')
 
     def setUp(self):
-        self.gocommand = RoboteqCommand('G', 0)
-        self.ampsquery = RoboteqCommand('A', 0)
-        self.operatingconfig = RoboteqCommand('MMOD', 0)
-        self.commander = RoboteqCommander({'_G': self.gocommand }, {'_A': self.ampsquery}, {'_MMOD': self.operatingconfig}, self.TestStreamBuffer)
+        self.gocommand = RuntimeCommand('G', 0)
+        self.ampsquery = RuntimeQuery('A', 0)
+        self.operatingconfig = ConfigSetting('MMOD', 0)
+        self.commander = RoboteqCommander(RoboteqCommandLibrary({'_G': self.gocommand , '_A': self.ampsquery, '_MMOD': self.operatingconfig}), self.TestStreamBuffer)
 
 
 class TestRoboteqCommanderMethods(RoboteqCommanderFixture):
 
     def test_SubmitCommand(self):
         #test sending a normal motor CommandDictionary
-        self.assertEqual(self.commander.CreateCommand("!",{'_G':self.gocommand},'_G', 1, 300), '!G 1 300')
+        self.assertEqual(self.commander.CreateCommand("!",'G', 1, 300), '!G 1 300')
         #test multiple arguments case
-        self.assertEqual(self.commander.CreateCommand("!",{'_G':self.gocommand},'_G', 1, 300, 300), '!G 1 300 300')
-        #Test Error handling of incorrect Token inputs
-        with self.assertRaises(KeyError):
-            self.commander.CreateCommand("!",{'_G':self.gocommand},'_S3', 1, 300, 300)
+        self.assertEqual(self.commander.CreateCommand("!",'G', 1, 300, 300), '!G 1 300 300')
+        
 
     #test output of Getcommand
     #TODO: Implement context manager to clear TestStreamBuffer between tests

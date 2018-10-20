@@ -61,10 +61,8 @@ class RoboteqCommandGenerator:
     #Arguments: _CommandDictionary - dictionary that lists all command tokens
     #           _QueryDictionary - dictionary that lists all query tokens
     #           _ConfigDictionary - dictionary that lists all config tokens
-    def __init__(self, _CommandDictionary, _QueryDictionary, _ConfigDictionary):
-        self.CommandDictionary = _CommandDictionary
-        self.QueryDictionary = _QueryDictionary
-        self.ConfigDictionary = _ConfigDictionary
+    def __init__(self, _TokenList):
+        self.TokenList = _TokenList
 
     def SubmitCommandString(self, commandString):
         #Prints Command String
@@ -76,27 +74,30 @@ class RoboteqCommandGenerator:
     #Creates command that can be interpreted by Roboteq device
     #command should match what user inputs in console tab of Roborun+
     #TODO: all commanders should have internal dictionaries, so we will have to make sure that this is optimized to pass dictionary.
-    def CreateCommand(self, CommandType, tokenDictionary, token, *args):
-
-        CommandOutput = [tokenDictionary[token].Identity]
+    def CreateCommand(self, CommandType, tokenString, *args):
+        CommandOutput = [tokenString]
         CommandOutput.extend(str(v) for v in args)
         return CommandType + ' '.join(CommandOutput)
 
     #command to call runtime commands
     def setCommand(self, token, *args):
-        return self.SubmitCommandString(self.CreateCommand('!' ,self.CommandDictionary, token, *args))
+        submitToken = self.TokenList[token].Identity
+        return self.SubmitCommandString(self.CreateCommand('!' , submitToken, *args))
 
     #command to call runtime queries
     def getValue(self, token, *args):
-        return self.SubmitCommandString(self.CreateCommand('?',self.QueryDictionary, token, *args))
+        submitToken = self.TokenList[token].Identity
+        return self.SubmitCommandString(self.CreateCommand('?', submitToken, *args))
 
     #command to set configuration settings
     def setConfig(self, token, *args):
-        return self.SubmitCommandString(self.CreateCommand('^', self.ConfigDictionary, token, *args))
+        submitToken = self.TokenList[token].Identity
+        return self.SubmitCommandString(self.CreateCommand('^',  submitToken, *args))
 
     #function to get configuration settings
     def getConfig(self, token, *args):
-        return self.SubmitCommandString(self.CreateCommand('~', self.ConfigDictionary, token, *args))
+        submitToken = self.TokenList[token].Identity
+        return self.SubmitCommandString(self.CreateCommand('~',  submitToken, *args))
 
 #General purpose commander on a StringIO object.
 #Can use this class to mock behavior of RoboteQ command classes in Unittests
@@ -104,7 +105,7 @@ class RoboteqCommander(RoboteqCommandGenerator):
 
 
     #TODO: create dictionary structure that can check whether supplied command aruments are valid
-    def __init__(self, _CommandDictionary, _QueryDictionary, _ConfigDictionary, _outputStream ):
+    def __init__(self, _TokenList, _outputStream ):
         """RoboteqCommander must be constructed by providing a dictionary for all commandString
             Arguments: _CommandDictionary - dictionary that lists all command tokens
                     _QueryDictionary - dictionary that lists all query tokens
@@ -112,7 +113,7 @@ class RoboteqCommander(RoboteqCommandGenerator):
                     _outputStream - IO stream that the Commander should interact with.
                                    This output stream should be considered as an input in Roborun+"""
 
-        super(RoboteqCommander, self).__init__(_CommandDictionary, _QueryDictionary, _ConfigDictionary)
+        super(RoboteqCommander, self).__init__(_TokenList)
 
         self.outputStream = _outputStream
 

@@ -65,12 +65,14 @@ class RoboteqCommandGenerator:
     3) Submission: Command is submitted to the controllerself.
 
 
-    This Class is structured like this in order to allow subclasses to be created to work with different platforms and be able to modify each step of the process for """
+    This Class is structured like this in order to allow subclasses to be created to work with different platforms and be able to modify each step of the process for outputting to a controllerself.
+
+    By default this class outputs a command string, currently. """
     def __init__(self, _TokenList):
         self.TokenList = _TokenList
 
     def _ConstructOutput(self, CommandType, token, *args):
-        """Generates arguments for format Output"""
+        """Generates input to Format output as a tuple of """
         output = ''
         try:
             output = self.TokenList[token].Identity
@@ -78,11 +80,10 @@ class RoboteqCommandGenerator:
             print('Key not found in commander libary!')
         return (CommandType, output, *args)
 
-    #Creates command that can be interpreted by Roboteq device
-    #command should match what user inputs in console tab of Roborun+
-    #TODO: all commanders should have internal dictionaries, so we will have to make sure that this is optimized to pass dictionary.
+
     def _FormatOutput(self, _args):
-        """Generates arguments for SubmitOuput Output"""
+        """Generates data chunk that gets sent as an argument to SubmitOutput"""
+        #TODO fix so that this shouldn't be default behavior
         CommandType, tokenString, *args = _args
         CommandOutput = [tokenString]
         CommandOutput.extend(str(v) for v in args)
@@ -92,13 +93,11 @@ class RoboteqCommandGenerator:
 
     def _SubmitOutput(self, commandString):
         """Submits output to controller"""
-        #Prints Command String
-        #place holder function to be overwritten in dereived classes
         return commandString
 
-    #TODO: catch any error where an invalid token is presented
-
-
+    def Command(self, CommandType, token, *args):
+        """Accesor method for calling the full Construct->Format->Submit stack"""
+        return self._SubmitOutput(self._FormatOutput(self._ConstructOutput(CommandType, token, *args)))
 
 
 
@@ -120,28 +119,33 @@ class RoboteqCommander(RoboteqCommandGenerator):
 
     #command to call runtime commands
     def setCommand(self, token, *args):
-        return self.SubmitOutput(self._FormatOutput(self._ConstructOutput('!' , token, *args)))
+        return self.Command('!' , token, *args)
 
     #command to call runtime queries
     def getValue(self, token, *args):
-        submitToken = self.TokenList[token].Identity
-        return self.SubmitOutput(self._FormatOutput(self._ConstructOutput('?', token, *args)))
+        return self.Command('?', token, *args)
 
     #command to set configuration settings
     def setConfig(self, token, *args):
-        submitToken = self.TokenList[token].Identity
-        return self.SubmitOutput(self._FormatOutput(self._ConstructOutput('^',  token, *args)))
+        return self.Command('^',  token, *args)
 
     #function to get configuration settings
     def getConfig(self, token, *args):
         submitToken = self.TokenList[token].Identity
-        return self.SubmitOutput(self._FormatOutput(self._ConstructOutput('~',  token, *args)))
+        return self.Command('~',  token, *args)
+
+    def _FormatOutput(self, _args):
+        """Generates data chunk that gets sent as an argument to SubmitOutput"""
+        CommandType, tokenString, *args = _args
+        CommandOutput = [tokenString]
+        CommandOutput.extend(str(v) for v in args)
+        return CommandType + ' '.join(CommandOutput)
 
     #Function to return command string to Roboteq Device
     #Should be redefined in inherited classes to interface over any port
     #Aruments: commandString - string commander should send to RoboteQ Device
     #Returns: string that will execute on roboteq Device. Should be redefined in derived classes
-    def SubmitOutput(self, commandString):
+    def _SubmitOutput(self, commandString):
         #Submits to user supplied outputStream
         #may want to save this functionality for derived classes
         self.outputStream.write(commandString + "\n")

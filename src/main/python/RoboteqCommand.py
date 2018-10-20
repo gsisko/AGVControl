@@ -49,6 +49,10 @@ class RuntimeQuery(RoboteqCommand):
 class ConfigSetting(RoboteqCommand):
     pass
 
+class RoboteqCommandLibrary(dict):
+    """This structure is going to have to hold a set of RoboteQ commands that can be accessed using their identity stringself.
+    Each command must have a unitque identity string. Should also only allow 1 type in each dictionary"""
+    pass
 
 #Genreates Roboteqcommands for commanders to use
 #acts as base class for Roboteq commanders that actually interact with Roboteq Devices

@@ -16,6 +16,8 @@ class RoboteqSerialCommander(RoboteqCommand.RoboteqCommander):
         return Serialcommander1
 
     #TODO make decotorator that just uses default settings to connect over a serial port
+    
+
 
     #TODO Iplement exception raising if there is no response from Roboteq Device, or if somehting else goes wrong with the serial connection.
     def SubmitCommandString(self, commandString):

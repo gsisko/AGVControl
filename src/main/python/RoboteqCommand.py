@@ -57,47 +57,49 @@ class RoboteqCommandLibrary(dict):
 #Genreates Roboteqcommands for commanders to use
 #acts as base class for Roboteq commanders that actually interact with Roboteq Devices
 class RoboteqCommandGenerator:
-    #RoboteqCommander must be constructed by providing a dictionary for all commandString
-    #Arguments: _CommandDictionary - dictionary that lists all command tokens
-    #           _QueryDictionary - dictionary that lists all query tokens
-    #           _ConfigDictionary - dictionary that lists all config tokens
+    """This is the core Roboteq Command class, with a generic RoboteqCommander Being an instantiation set up to use basic StringIO
+
+    The intention of this class is to have 3 main stages of commanding:
+    1) Construction: Command is constructed with constructOutput(), which creates the actual contents of the CommandDictionary
+    2) Formatting: Command is formatted based on the platform and protocol that it is being used on
+    3) Submission: Command is submitted to the controllerself.
+
+
+    This Class is structured like this in order to allow subclasses to be created to work with different platforms and be able to modify each step of the process for """
     def __init__(self, _TokenList):
         self.TokenList = _TokenList
 
-    def SubmitCommandString(self, commandString):
+    def ConstructOutput(self, CommandType, token, *args):
+        """Generates arguments for format Output"""
+        output = ''
+        try:
+            output = self.TokenList[token].Identity
+        except KeyError:
+            print('Key not found in commander libary!')
+        return (CommandType, output, *args)
+
+    #Creates command that can be interpreted by Roboteq device
+    #command should match what user inputs in console tab of Roborun+
+    #TODO: all commanders should have internal dictionaries, so we will have to make sure that this is optimized to pass dictionary.
+    def FormatOutput(self, CommandType, tokenString, *args):
+        """Generates arguments for SubmitOuput Output"""
+        CommandOutput = [tokenString]
+        CommandOutput.extend(str(v) for v in args)
+        return CommandType + ' '.join(CommandOutput)
+
+
+
+    def SubmitOutput(self, commandString):
+        """Submits output to controller"""
         #Prints Command String
         #place holder function to be overwritten in dereived classes
         return commandString
 
     #TODO: catch any error where an invalid token is presented
 
-    #Creates command that can be interpreted by Roboteq device
-    #command should match what user inputs in console tab of Roborun+
-    #TODO: all commanders should have internal dictionaries, so we will have to make sure that this is optimized to pass dictionary.
-    def CreateCommand(self, CommandType, tokenString, *args):
-        CommandOutput = [tokenString]
-        CommandOutput.extend(str(v) for v in args)
-        return CommandType + ' '.join(CommandOutput)
 
-    #command to call runtime commands
-    def setCommand(self, token, *args):
-        submitToken = self.TokenList[token].Identity
-        return self.SubmitCommandString(self.CreateCommand('!' , submitToken, *args))
 
-    #command to call runtime queries
-    def getValue(self, token, *args):
-        submitToken = self.TokenList[token].Identity
-        return self.SubmitCommandString(self.CreateCommand('?', submitToken, *args))
 
-    #command to set configuration settings
-    def setConfig(self, token, *args):
-        submitToken = self.TokenList[token].Identity
-        return self.SubmitCommandString(self.CreateCommand('^',  submitToken, *args))
-
-    #function to get configuration settings
-    def getConfig(self, token, *args):
-        submitToken = self.TokenList[token].Identity
-        return self.SubmitCommandString(self.CreateCommand('~',  submitToken, *args))
 
 #General purpose commander on a StringIO object.
 #Can use this class to mock behavior of RoboteQ command classes in Unittests
@@ -106,12 +108,7 @@ class RoboteqCommander(RoboteqCommandGenerator):
 
     #TODO: create dictionary structure that can check whether supplied command aruments are valid
     def __init__(self, _TokenList, _outputStream ):
-        """RoboteqCommander must be constructed by providing a dictionary for all commandString
-            Arguments: _CommandDictionary - dictionary that lists all command tokens
-                    _QueryDictionary - dictionary that lists all query tokens
-                    _ConfigDictionary - dictionary that lists all config tokens
-                    _outputStream - IO stream that the Commander should interact with.
-                                   This output stream should be considered as an input in Roborun+"""
+        """Roboteq Commander serves as the generic commander implementation, and operates on a standard string IO output. It also provides the generic commands for differentiating between different kinds of command output."""
 
         super(RoboteqCommander, self).__init__(_TokenList)
 
@@ -119,11 +116,30 @@ class RoboteqCommander(RoboteqCommandGenerator):
 
         return
 
+    #command to call runtime commands
+    def setCommand(self, token, *args):
+        return self.SubmitOutput(self.FormatOutput(*self.ConstructOutput('!' , token, *args)))
+
+    #command to call runtime queries
+    def getValue(self, token, *args):
+        submitToken = self.TokenList[token].Identity
+        return self.SubmitOutput(self.FormatOutput('?', submitToken, *args))
+
+    #command to set configuration settings
+    def setConfig(self, token, *args):
+        submitToken = self.TokenList[token].Identity
+        return self.SubmitOutput(self.FormatOutput('^',  submitToken, *args))
+
+    #function to get configuration settings
+    def getConfig(self, token, *args):
+        submitToken = self.TokenList[token].Identity
+        return self.SubmitOutput(self.FormatOutput('~',  submitToken, *args))
+
     #Function to return command string to Roboteq Device
     #Should be redefined in inherited classes to interface over any port
     #Aruments: commandString - string commander should send to RoboteQ Device
     #Returns: string that will execute on roboteq Device. Should be redefined in derived classes
-    def SubmitCommandString(self, commandString):
+    def SubmitOutput(self, commandString):
         #Submits to user supplied outputStream
         #may want to save this functionality for derived classes
         self.outputStream.write(commandString + "\n")

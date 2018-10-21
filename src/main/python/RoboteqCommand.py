@@ -100,17 +100,11 @@ class RoboteqCommandGenerator:
         return self._SubmitOutput(self._FormatOutput(self._ConstructOutput(CommandType, token, *args)))
 
 
-
-#General purpose commander on a StringIO object.
-#Can use this class to mock behavior of RoboteQ command classes in Unittests
+#TODO include safety for checking if read/write is allowed for output stream.
 class RoboteqCommander(RoboteqCommandGenerator):
+    """Roboteq Commander serves as the generic commander implementation for serial streamed commands to the a Roboteq Device. It by default outputs everythingto a generic IO stream using read/write python paradigms"""
 
-
-    #TODO: create dictionary structure that can check whether supplied command aruments are valid
-    #TODO include safety for checking if read/write is allowed for output stream.
     def __init__(self, _TokenList, _outputStream ):
-        """Roboteq Commander serves as the generic commander implementation for serial streamed commands to the a Roboteq Device. It by default outputs everythingto a generic IO stream using read/write python paradigms"""
-
         super(RoboteqCommander, self).__init__(_TokenList)
 
         self.outputStream = _outputStream
@@ -141,13 +135,9 @@ class RoboteqCommander(RoboteqCommandGenerator):
         CommandOutput.extend(str(v) for v in args)
         return CommandType + ' '.join(CommandOutput)
 
-    #Function to return command string to Roboteq Device
-    #Should be redefined in inherited classes to interface over any port
-    #Aruments: commandString - string commander should send to RoboteQ Device
-    #Returns: string that will execute on roboteq Device. Should be redefined in derived classes
+
     def _SubmitOutput(self, commandString):
-        #Submits to user supplied outputStream
-        #may want to save this functionality for derived classes
+    \
         self.outputStream.write(commandString + "\n")
         controllerResponse =  self.outputStream.readline()
         return controllerResponse

@@ -83,11 +83,11 @@ class RoboteqCommandGenerator:
 
     def _FormatOutput(self, _args):
         """Generates data chunk that gets sent as an argument to SubmitOutput"""
-        #TODO fix so that this shouldn't be default behavior
-        CommandType, tokenString, *args = _args
-        CommandOutput = [tokenString]
-        CommandOutput.extend(str(v) for v in args)
-        return CommandType + ' '.join(CommandOutput)
+        output = ''
+        for i in args:
+            ouput += i
+        return output
+
 
 
 

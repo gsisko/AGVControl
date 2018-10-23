@@ -56,7 +56,7 @@ class RoboteqCommandLibrary(dict):
 
 #Genreates Roboteqcommands for commanders to use
 #acts as base class for Roboteq commanders that actually interact with Roboteq Devices
-class RoboteqCommandGenerator:
+class RoboteqCommander:
     """This is the core Roboteq Command class, with a generic RoboteqCommander Being an instantiation set up to use basic StringIO
 
     The intention of this class is to have 3 main stages of commanding:
@@ -101,11 +101,11 @@ class RoboteqCommandGenerator:
 
 
 #TODO include safety for checking if read/write is allowed for output stream.
-class RoboteqCommander(RoboteqCommandGenerator):
+class RoboteqStreamCommander(RoboteqCommander):
     """Roboteq Commander serves as the generic commander implementation for serial streamed commands to the a Roboteq Device. It by default outputs everythingto a generic IO stream using read/write python paradigms"""
 
     def __init__(self, _TokenList, _outputStream ):
-        super(RoboteqCommander, self).__init__(_TokenList)
+        super(RoboteqStreamCommander, self).__init__(_TokenList)
 
         self.outputStream = _outputStream
 
@@ -137,7 +137,6 @@ class RoboteqCommander(RoboteqCommandGenerator):
 
 
     def _SubmitOutput(self, commandString):
-    \
         self.outputStream.write(commandString + "\n")
         controllerResponse =  self.outputStream.readline()
         return controllerResponse

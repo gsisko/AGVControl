@@ -5,7 +5,7 @@ import serial
 
 #General purpose commander on a StringIO object.
 #Can use this class to mock behavior of RoboteQ command classes in Unittests
-class RoboteqSerialCommander(RoboteqCommand.RoboteqCommander):
+class RoboteqSerialCommander(RoboteqCommand.RoboteqStreamCommander):
 
 
     @classmethod
@@ -16,7 +16,7 @@ class RoboteqSerialCommander(RoboteqCommand.RoboteqCommander):
         return Serialcommander1
 
     #TODO make decotorator that just uses default settings to connect over a serial port
-    
+
 
 
     #TODO Iplement exception raising if there is no response from Roboteq Device, or if somehting else goes wrong with the serial connection.

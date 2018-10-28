@@ -33,6 +33,12 @@ class RoboteqCommand:
         self.Name = _Name #TODO consider manipulating __name__ from these
         self.Function = _Function
 
+    #have to override eq in order to check if commands are equivalent
+    def __eq__(self, other):
+        if type(other) is type(self):
+            return self.__slots__ == other.__slots__
+        return False
+
     def __iter__(self):
         return iter(self.__slots__)
 

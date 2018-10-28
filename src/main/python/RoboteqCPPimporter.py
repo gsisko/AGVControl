@@ -3,6 +3,7 @@ import sys
 sys.path = ["../"] + sys.path   #set sys in order to be able to locate header fileself.
 
 import CppHeaderParser
+from RoboteqCommand import RoboteqCommand, RuntimeCommand, RuntimeQuery, ConfigSetting
 
 
 #TODO move Roboteq Importer to its own module
@@ -61,6 +62,6 @@ class RoboteqCPPImporter(RoboteqCommandImporter):
                  #The formatting of the print statement comes from the round about way that values are #defined in the Roboteq CPP install_dependencies
                  #Their identity string is defined as a decimal representation of their HEX valueself.
                  #we need to do all of that conversion here in order to make this work with Roboteq Command Generator.
-                RoboteqCommandDict[command[0]] = '${:02x}'.format(int(command[1])) #using .format() instead of fstring to match formatting in RoboteQ CPP API
+                RoboteqCommandDict[command[0]] = RoboteqCommand(command[0], int(command[1])) #using .format() instead of fstring to match formatting in RoboteQ CPP API
 
         return RoboteqCommandDict

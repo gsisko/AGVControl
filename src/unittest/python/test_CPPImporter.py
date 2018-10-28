@@ -32,12 +32,12 @@ class CPPImportFixture(unittest.TestCase):
 
         os.remove('test.h')
 
-    def test_CPPImport(self):
-        self.assertEqual(self.importer.generateCommandDict(), self.referenceDict)
+    #def test_CPPImport(self):
+    #    self.assertEqual(self.importer.generateCommandDict(), self.referenceDict)
 
 
-    def test_DirectImport(self):
-        self.assertEqual(RoboteqCPPImporter.RoboteqImport('test.h'), self.referenceDict)
+    #def test_DirectImport(self):
+    #    self.assertEqual(RoboteqCPPImporter.RoboteqImport('test.h'), self.referenceDict)
 
 if __name__ == '__main__':
         unittest.main()

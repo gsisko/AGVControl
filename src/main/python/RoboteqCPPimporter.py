@@ -62,6 +62,6 @@ class RoboteqCPPImporter(RoboteqCommandImporter):
                  #The formatting of the print statement comes from the round about way that values are #defined in the Roboteq CPP install_dependencies
                  #Their identity string is defined as a decimal representation of their HEX valueself.
                  #we need to do all of that conversion here in order to make this work with Roboteq Command Generator.
-                RoboteqCommandDict[command[0]] = RoboteqCommand(command[0], int(command[1])) #using .format() instead of fstring to match formatting in RoboteQ CPP API
+                RoboteqCommandDict[command[0]] = RoboteqCommand(command[0], int(command[1]))
 
         return RoboteqCommandDict

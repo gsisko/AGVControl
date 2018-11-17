@@ -82,7 +82,8 @@ decomposing indvidual angular velocity per wheel:
 $$\omega (R+\frac {l}{2}) = v_r$$
 $$\omega (R-\frac {l}{2}) = v_r$$
 
-
+<!--
+Once we have the wheels we can calculate the forward kinematics. -->
 <!-- FAQ Reference List -->
 
 [User Manual]:https://www.roboteq.com/index.php/docman/motor-controllers-documents-and-files/documentation/user-manual/272-roboteq-controllers-user-manual-v17/file "User Manual"

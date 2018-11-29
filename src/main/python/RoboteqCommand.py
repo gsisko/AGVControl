@@ -46,6 +46,8 @@ class RoboteqCommand:
         for attribute in self.__slots__:
             yield attribute, getattr(self, attribute)
 
+
+#These blank classes are here to provide type checking
 class RuntimeCommand(RoboteqCommand):
     pass
 

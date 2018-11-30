@@ -16,9 +16,7 @@ class OperatingMode(Enum):
 
 
 class DiconnectedController(RoboteqCommander)
-
-
-pass
+    pass
 
 
 controller = DisconnectedController()
@@ -53,9 +51,6 @@ def ReadConfig():
 controller = RoboteqCommander(RoboteqCommandLibrary())
 
 # connect to a Device
-
-
-
 
 def connect():
     try:

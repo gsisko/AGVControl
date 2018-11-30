@@ -16,7 +16,9 @@ class OperatingMode(Enum):
 
 
 class DiconnectedController(RoboteqCommander)
-    pass
+
+
+pass
 
 
 controller = DisconnectedController()
@@ -37,7 +39,8 @@ SpeedandAcceleration = {'mode': OperatingMode.Open_Loop,
 
 Channel1 = SpeedandAcceleration
 
-#TODO colate all tables automatically
+# TODO colate all tables automatically
+
 
 def ReadConfig():
     """Reads all the configration settings from various dicts
@@ -51,6 +54,7 @@ def ReadConfig():
 controller = RoboteqCommander(RoboteqCommandLibrary())
 
 # connect to a Device
+
 
 def connect():
     try:

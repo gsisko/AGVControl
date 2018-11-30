@@ -7,7 +7,7 @@ class RoboteqCommand:
     """Class to use as generic class for a roboteq command"""
     __slots__ = ('Identity', 'HexID', 'Name', 'Function', 'Aliases')
 
-    def __init__(self, _Identity, _HexID, _Name='', _Function='', _Aliases=[]):
+    def __init__(self, _Identity, _HexID, _Name='', _Function='', _Aliases=none):
         # TODO consider making Requied underlying values immutable after they are initialized, or at least private
         """Constructor: A Roboteq Command
         Required Values:
@@ -18,7 +18,8 @@ class RoboteqCommand:
         Optional Arguments:
             Name: Verbose name of Command
             Function: Name of argument to use as function name
-            Aliases: Other working aliases that command can be called by in MicroBasic"""
+            Aliases: Other working aliases that command can be called by in MicroBasic"""Al
+        _Aliases = _Aliases or []
         if isinstance(_Identity, str):
             self.Identity = _Identity
         else:

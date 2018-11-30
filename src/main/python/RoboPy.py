@@ -12,7 +12,7 @@ class OperatingMode(Enum):
     Closed_Loop_Count_Position = 3
     Closed_Loop_Position_Tracking = 4
     Torque_Mode = 5
-    Closed - loop speed position = 6
+    Closed_Loop_Speed_Position = 6
 
 
 class DiconnectedController(RoboteqCommander)

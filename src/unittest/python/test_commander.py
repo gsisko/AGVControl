@@ -1,7 +1,8 @@
 #system imports to provide proper test execution
 import sys, os
 from io import StringIO
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir) + "\\commanders"))
+#for pre build tests
+#sys.path.append(os.path.abspath(os.path.join(os.getcwd(), os.pardir) + "\\commanders"))
 
 #testing module imports
 import unittest
@@ -9,7 +10,7 @@ from unittest.mock import patch
 from unittest.mock import MagicMock
 
 #import Commander for testing
-from RoboteQCommandInterface import RoboteqCommander
+from RoboteqCommand import RoboteqCommand, RoboteqCommandLibrary, RoboteqStreamCommander, RuntimeCommand, RuntimeQuery, ConfigSetting
 
 
 
@@ -26,16 +27,23 @@ class RoboteqCommanderFixture(unittest.TestCase):
     TestStreamBuffer.readline = MagicMock(return_value = 'Place Holder Controller Response')
 
     def setUp(self):
-        self.commander = RoboteqCommander({'_G':'G', '_M':'M'}, {'_A':'A'}, {'_MMOD':'MMOD'}, self.TestStreamBuffer)
+        self.gocommand = RuntimeCommand('G', 0)
+        self.ampsquery = RuntimeQuery('A', 0)
+        self.operatingconfig = ConfigSetting('MMOD', 0)
+        self.commander = RoboteqStreamCommander(RoboteqCommandLibrary({'_G': self.gocommand , '_A': self.ampsquery, '_MMOD': self.operatingconfig}), self.TestStreamBuffer)
 
 
 class TestRoboteqCommanderMethods(RoboteqCommanderFixture):
 
     def test_SubmitCommand(self):
+
+        #test Cases for command cosntruction
+        self.assertEqual(self.commander._ConstructOutput('!','_G', 1, 300), ('!', 'G', 1, 300))
         #test sending a normal motor CommandDictionary
-        self.assertEqual(self.commander.CreateCommand("!",{'_G':'G'},'_G', 1, 300), '!G 1 300')
+        self.assertEqual(self.commander._FormatOutput(("!",'G', 1, 300)), '!G 1 300')
         #test multiple arguments case
-        self.assertEqual(self.commander.CreateCommand("!",{'_G':'G'},'_G', 1, 300, 300), '!G 1 300 300')
+        self.assertEqual(self.commander._FormatOutput(("!",'G', 1, 300, 300)), '!G 1 300 300')
+
 
     #test output of Getcommand
     #TODO: Implement context manager to clear TestStreamBuffer between tests
@@ -58,6 +66,8 @@ class TestRoboteqCommanderMethods(RoboteqCommanderFixture):
     def test_getConfig(self):
         self.assertEqual(self.commander.getConfig('_MMOD'), self.EvaluateControllerResponse('~MMOD'))
         self.assertEqual(self.TestStreamBuffer.getvalue().splitlines().pop(), '~MMOD')
+
+#TODO add sections for each type of serial commander
 
 if __name__ == '__main__':
         unittest.main()

@@ -15,11 +15,11 @@ class OperatingMode(Enum):
     Closed_Loop_Speed_Position = 6
 
 
-class DiconnectedController(RoboteqCommander)
+class DiconnectedController(RoboteqCommander):
     pass
 
 
-controller = DisconnectedController()
+#controller = DisconnectedController()
 
 Config = {'movemode': '_MMOD',
           'maxspeed': '_MXRPM',
@@ -37,7 +37,8 @@ SpeedandAcceleration = {'movemode': OperatingMode.Open_Loop,
 
 Channel1 = SpeedandAcceleration
 
-#TODO colate all tables automatically
+# TODO colate all tables automatically
+
 
 def ReadConfig():
     """Reads all the configration settings from various dicts
@@ -52,10 +53,11 @@ controller = RoboteqCommander(RoboteqCommandLibrary())
 
 # connect to a Device
 
+
 def connect():
     try:
-        tokenList = RoboteqCPPImport.RoboteqImport('Constants.h')
+        tokenList = RoboteqCPPImporter.RoboteqImport('Constants.h')
         controller = RoboteqSerialCommander.connectOverRS232(tokenList)
-    except SerialException:
+    except serial.SerialException:
         return 'Device not Found'
     return 'Device Connected'

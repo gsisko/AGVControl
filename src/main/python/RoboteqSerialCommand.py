@@ -15,7 +15,10 @@ class RoboteqSerialCommander(RoboteqCommand.RoboteqStreamCommander):
         Serialcommander1 = cls(_TokenList, serialPort)
         return Serialcommander1
 
-    #TODO make decotorator that just uses default settings to connect over a serial port
+    @classmethod
+    def connectOverRS232(cls, _TokenList):
+        #TODO implement method that connects automatically independent of hardware platform
+        raise serial.SerialException('Device Not Found')
 
 
 

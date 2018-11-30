@@ -37,7 +37,7 @@ class RoboteqCommandImporter():
 
 
 class RoboteqCPPImporter(RoboteqCommandImporter):
-    """#sub class of Roboteq Comand importer for importing from header files from the RoboteQ C++ install_dependencies
+    """sub class of Roboteq Comand importer for importing from header files from the RoboteQ C++ install_dependencies
     In these headers, commands are given as a series of defines in the form of:
     #define CMDSTR BASE10HEXID
     CMDSTR: the command's roboteq identity string. This is the string you use in microbasic.

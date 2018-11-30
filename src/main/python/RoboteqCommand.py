@@ -109,6 +109,24 @@ class RoboteqCommander:
         """Accesor method for calling the full Construct->Format->Submit stack"""
         return self._SubmitOutput(self._FormatOutput(self._ConstructOutput(CommandType, token, *args)))
 
+    # command to call runtime commands
+    def setCommand(self, token, *args):
+        return self.Command('!', token, *args)
+
+    # command to call runtime queries
+    def getValue(self, token, *args):
+        return self.Command('?', token, *args)
+
+    # command to set configuration settings
+    def setConfig(self, token, *args):
+        return self.Command('^',  token, *args)
+
+    # function to get configuration settings
+    def getConfig(self, token, *args):
+        submitToken = self.TokenList[token].Identity
+        return self.Command('~',  token, *args)
+
+
 
 # TODO include safety for checking if read/write is allowed for output stream.
 class RoboteqStreamCommander(RoboteqCommander):

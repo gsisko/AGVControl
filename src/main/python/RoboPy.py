@@ -1,6 +1,7 @@
 from RoboteqCommand import RoboteqCommand, RoboteqCommander, RoboteqCommandLibrary
 from RoboteqSerialCommand import RoboteqSerialCommander
 from RoboteqCPPimporter import RoboteqCPPImporter
+import serial
 from enum import Enum
 import copy
 

@@ -105,18 +105,6 @@ class RoboteqCommander:
         """Accesor method for calling the full Construct->Format->Submit stack"""
         return self._SubmitOutput(self._FormatOutput(self._ConstructOutput(CommandType, token, *args)))
 
-
-#TODO include safety for checking if read/write is allowed for output stream.
-class RoboteqStreamCommander(RoboteqCommander):
-    """Roboteq Commander serves as the generic commander implementation for serial streamed commands to the a Roboteq Device. It by default outputs everythingto a generic IO stream using read/write python paradigms"""
-
-    def __init__(self, _TokenList, _outputStream ):
-        super(RoboteqStreamCommander, self).__init__(_TokenList)
-
-        self.outputStream = _outputStream
-
-        return
-
     #command to call runtime commands
     def setCommand(self, token, *args):
         return self.Command('!' , token, *args)
@@ -133,6 +121,19 @@ class RoboteqStreamCommander(RoboteqCommander):
     def getConfig(self, token, *args):
         submitToken = self.TokenList[token].Identity
         return self.Command('~',  token, *args)
+
+
+
+#TODO include safety for checking if read/write is allowed for output stream.
+class RoboteqStreamCommander(RoboteqCommander):
+    """Roboteq Commander serves as the generic commander implementation for serial streamed commands to the a Roboteq Device. It by default outputs everythingto a generic IO stream using read/write python paradigms"""
+
+    def __init__(self, _TokenList, _outputStream ):
+        super(RoboteqStreamCommander, self).__init__(_TokenList)
+
+        self.outputStream = _outputStream
+
+        return
 
     def _FormatOutput(self, _args):
         """Generates data chunk that gets sent as an argument to SubmitOutput"""

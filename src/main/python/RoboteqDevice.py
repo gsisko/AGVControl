@@ -1,7 +1,5 @@
 from RoboteqCommand import RoboteqCommander
 
-
-.
 class RoboteqDevice:
     """Class that encapsulates all RoboteQ Devices
     It should handle all Comms and Microbasic specific functions for roboteQ devices"""

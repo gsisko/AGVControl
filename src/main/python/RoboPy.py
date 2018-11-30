@@ -15,7 +15,7 @@ class OperatingMode(Enum):
     Closed - loop speed position = 6
 
 
-class DiconnectedController(RoboteqStreamCommander)
+class DiconnectedController(RoboteqCommander)
 
 
 pass
@@ -23,11 +23,11 @@ pass
 
 controller = DisconnectedController()
 
-ConfigDict = {'mode': '_MMOD',
-              'maxspeed': '_MXRPM',
-              'minspeed': '_MNRPM',
-              'acceleration': '_AC',
-              'decceleration': '_DC'}
+Config = {'mode': '_MMOD',
+          'maxspeed': '_MXRPM',
+          'minspeed': '_MNRPM',
+          'acceleration': '_AC',
+          'decceleration': '_DC'}
 
 
 SpeedandAcceleration = {'mode': OperatingMode.Open_Loop,
@@ -39,15 +39,24 @@ SpeedandAcceleration = {'mode': OperatingMode.Open_Loop,
 
 Channel1 = SpeedandAcceleration
 
-def initialize():
+#TODO colate all tables automatically
+
+def ReadConfig():
+    """Reads all the configration settings from various dicts
+    """
     for k in SpeedandAcceleration.keys():
-        SpeedandAcceleration[k] = controller.get
+        SpeedandAcceleration[k] = controller.getConfig(Config[k])
 
     # connect to a Device
 
+
 controller = RoboteqCommander(RoboteqCommandLibrary())
 
-#connect to a Device
+# connect to a Device
+
+
+
+
 def connect():
     try:
         tokenList = RoboteqCPPImport.RoboteqImport('Constants.h')

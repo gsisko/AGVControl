@@ -1,8 +1,6 @@
 from RoboteqCommand import RoboteqCommand, RoboteqCommander, RoboteqCommandLibrary
 from RoboteqSerialCommand import RoboteqSerialCommander
 from RoboteqCPPimporter import RoboteqCPPImporter
-<<<<<<< Updated upstream
-=======
 from enum import Enum
 import copy
 
@@ -46,7 +44,6 @@ def initialize():
         SpeedandAcceleration[k] = controller.get
 
     # connect to a Device
->>>>>>> Stashed changes
 
 controller = RoboteqCommander(RoboteqCommandLibrary())
 
@@ -58,5 +55,3 @@ def connect():
     except SerialException:
         return 'Device not Found'
     return 'Device Connected'
-
- 

@@ -7,6 +7,7 @@ use_plugin('pypi:pybuilder_pytest')
 use_plugin('pypi:pybuilder_pytest_coverage')
 use_plugin("python.install_dependencies")
 use_plugin("python.distutils")
+use_plugin("python.flake8")
 
 
 default_task = "publish"
@@ -25,3 +26,4 @@ def initialize(project):
     project.build_depends_on('mockito')
     project.build_depends_on('coverage')
     project.build_depends_on('CppHeaderParser')
+    project.build_depends_on('flake8')

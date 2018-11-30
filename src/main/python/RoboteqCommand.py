@@ -97,7 +97,7 @@ class RoboteqCommander:
     def _FormatOutput(self, _args):
         """Generates data chunk that gets sent as an argument to SubmitOutput"""
         output = ''
-        for i in args:
+        for i in _args:
             ouput += i
         return output
 

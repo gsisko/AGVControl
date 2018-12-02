@@ -2,6 +2,7 @@
 
 import RoboteqCommand
 import serial
+import io
 
 #General purpose commander on a StringIO object.
 #Can use this class to mock behavior of RoboteQ command classes in Unittests
@@ -11,8 +12,9 @@ class RoboteqSerialCommander(RoboteqCommand.RoboteqStreamCommander):
     @classmethod
     def connectOverRS232(cls, _TokenList,*SerialArgs):
         """Function decorator to create serial object on the fly using provided settings"""
-        serialPort = serial.Serial(*SerialArgs, timeout = .1)  #specify default timeout of 1 sec using timeout keyord arg
-        Serialcommander1 = cls(_TokenList, serialPort)
+        ser = serial.Serial(*SerialArgs, timeout = .01)  #specify default timeout of 1 sec using timeout keyord arg
+        sio = sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
+        Serialcommander1 = cls(_TokenList, sio)
         return Serialcommander1
 
     def _FormatOaautput(self, _args):
@@ -32,7 +34,9 @@ class RoboteqSerialCommander(RoboteqCommand.RoboteqStreamCommander):
         #may want to save this functionality for derived classes
         outputString = commandString + '_'
         print(outputString)
-        self.outputStream.write(outputString.encode('ascii'))    #Roboteq Devices accept the underscore charcter as a command terminator
+        self.outputStream.write(outputString)    #Roboteq Devices accept the underscore charcter as a command terminator
         self.outputStream.flush()
+        #TODO there has got to be a better way of doing this than 2 readlines
+        self.outputStream.readline()
         controllerResponse = self.outputStream.readline()
         return controllerResponse

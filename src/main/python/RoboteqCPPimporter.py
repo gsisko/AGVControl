@@ -9,7 +9,8 @@ sys.path = ["../"] + sys.path
 # TODO move Roboteq Importer to its own module
 class RoboteqCommandImporter():
     """Blank base class for all file importer to inherit from
-    By default, it imports serialized python data directly with eval(). So we can print a dictionary and it will"""
+    By default, it imports serialized python data directly
+    with eval(). So we can print a dictionary and it will"""
     # We have to give the importer the source of all the commands to be imported
     # This can be a file name or a
 

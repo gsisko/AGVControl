@@ -98,7 +98,7 @@ class RoboteqCommander:
         """Generates data chunk that gets sent as an argument to SubmitOutput"""
         output = ''
         for i in _args:
-            ouput += i
+            output += i
         return output
 
     def _SubmitOutput(self, commandString):

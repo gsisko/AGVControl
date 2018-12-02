@@ -109,6 +109,7 @@ class RoboteqCommander:
         try:
             return self._SubmitOutput(self._FormatOutput(self._ConstructOutput(CommandType, token, *args)))
         except KeyError as err:
+            #TODO make this go into a log isntead
             print('Key {0} not found in commander libary!'.format(err))
 
     # command to call runtime commands

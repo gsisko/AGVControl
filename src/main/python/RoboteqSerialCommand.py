@@ -15,7 +15,12 @@ class RoboteqSerialCommander(RoboteqCommand.RoboteqStreamCommander):
         Serialcommander1 = cls(_TokenList, serialPort)
         return Serialcommander1
 
-
+    def _FormatOutput(self, _args):
+        """Generates data chunk that gets sent as an argument to SubmitOutput"""
+        CommandType, tokenString, *args = _args
+        CommandOutput = [self.TokenList[tokenString].Identity[1:]]
+        CommandOutput.extend(str(v) for v in args)
+        return CommandType + ' '.join(CommandOutput)
 
     #TODO Iplement exception raising if there is no response from Roboteq Device, or if somehting else goes wrong with the serial connection.
     def _SubmitOutput(self, commandString):
@@ -26,6 +31,7 @@ class RoboteqSerialCommander(RoboteqCommand.RoboteqStreamCommander):
         #Submits to user supplied outputStream
         #may want to save this functionality for derived classes
         outputString = commandString + '_'
-        self.outputStream.write(outputString.encode('utf-8'))    #Roboteq Devices accept the underscore charcter as a command terminator
+        print(outputString)
+        self.outputStream.write(outputString.encode('ascii'))    #Roboteq Devices accept the underscore charcter as a command terminator
         controllerResponse = self.outputStream.readline()
         return controllerResponse

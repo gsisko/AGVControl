@@ -88,10 +88,9 @@ class RoboteqCommander:
     def _ConstructOutput(self, CommandType, token, *args):
         """Generates input to Format output as a tuple of """
         output = ''
-        try:
-            output = self.TokenList[token].Identity
-        except KeyError:
-            print('Key not found in commander libary!')
+
+        output = self.TokenList[token].Identity
+
         return (CommandType, output, *args)
 
     def _FormatOutput(self, _args):
@@ -107,7 +106,10 @@ class RoboteqCommander:
 
     def Command(self, CommandType, token, *args):
         """Accesor method for calling the full Construct->Format->Submit stack"""
-        return self._SubmitOutput(self._FormatOutput(self._ConstructOutput(CommandType, token, *args)))
+        try:
+            return self._SubmitOutput(self._FormatOutput(self._ConstructOutput(CommandType, token, *args)))
+        except KeyError as err:
+            print('Key {0} not found in commander libary!'.format(err))
 
     # command to call runtime commands
     def setCommand(self, token, *args):

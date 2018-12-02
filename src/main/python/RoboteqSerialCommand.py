@@ -11,11 +11,11 @@ class RoboteqSerialCommander(RoboteqCommand.RoboteqStreamCommander):
     @classmethod
     def connectOverRS232(cls, _TokenList,*SerialArgs):
         """Function decorator to create serial object on the fly using provided settings"""
-        serialPort = serial.Serial(*SerialArgs, timeout = 1)  #specify default timeout of 1 sec using timeout keyord arg
+        serialPort = serial.Serial(*SerialArgs, timeout = .1)  #specify default timeout of 1 sec using timeout keyord arg
         Serialcommander1 = cls(_TokenList, serialPort)
         return Serialcommander1
 
-    def _FormatOutput(self, _args):
+    def _FormatOaautput(self, _args):
         """Generates data chunk that gets sent as an argument to SubmitOutput"""
         CommandType, tokenString, *args = _args
         CommandOutput = [self.TokenList[tokenString].Identity[1:]]
@@ -33,5 +33,6 @@ class RoboteqSerialCommander(RoboteqCommand.RoboteqStreamCommander):
         outputString = commandString + '_'
         print(outputString)
         self.outputStream.write(outputString.encode('ascii'))    #Roboteq Devices accept the underscore charcter as a command terminator
+        self.outputStream.flush()
         controllerResponse = self.outputStream.readline()
         return controllerResponse

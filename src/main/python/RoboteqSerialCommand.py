@@ -20,7 +20,8 @@ class RoboteqSerialCommander(RoboteqCommand.RoboteqStreamCommander):
     def _FormatOaautput(self, _args):
         """Generates data chunk that gets sent as an argument to SubmitOutput"""
         CommandType, tokenString, *args = _args
-        CommandOutput = [self.TokenList[tokenString].Identity[1:]]
+        CommandOutput = [self.TokenList[tokenString].Identity]
+        print(CommandOutput)
         CommandOutput.extend(str(v) for v in args)
         return CommandType + ' '.join(CommandOutput)
 

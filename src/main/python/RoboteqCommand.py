@@ -89,7 +89,7 @@ class RoboteqCommander:
         """Generates input to Format output as a tuple of """
         output = ''
 
-        output = self.TokenList[token].Identity[1:]
+        output = self.TokenList[token].Identity
         return (CommandType, output, *args)
 
     def _FormatOutput(self, _args):

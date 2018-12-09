@@ -10,7 +10,7 @@ from unittest.mock import patch
 from unittest.mock import MagicMock
 
 #import Commander for testing
-from RoboteqCommand import RoboteqCommand, RoboteqCommandLibrary, RoboteqStreamCommander, RuntimeCommand, RuntimeQuery, ConfigSetting
+from RoboteqCommand import RoboteqCommand, RoboteqCommandLibrary, RoboteqCommander, RuntimeCommand, RuntimeQuery, ConfigSetting
 
 
 
@@ -30,7 +30,7 @@ class RoboteqCommanderFixture(unittest.TestCase):
         self.gocommand = RuntimeCommand('G', 0)
         self.ampsquery = RuntimeQuery('A', 0)
         self.operatingconfig = ConfigSetting('MMOD', 0)
-        self.commander = RoboteqStreamCommander(RoboteqCommandLibrary({'_G': self.gocommand , '_A': self.ampsquery, '_MMOD': self.operatingconfig}), self.TestStreamBuffer)
+        self.commander = RoboteqCommander(RoboteqCommandLibrary({'_G': self.gocommand , '_A': self.ampsquery, '_MMOD': self.operatingconfig}), self.TestStreamBuffer)
 
 
 class TestRoboteqCommanderMethods(RoboteqCommanderFixture):

@@ -82,8 +82,9 @@ class RoboteqCommander:
 
     By default this class outputs a command string, currently. """
 
-    def __init__(self, _TokenList):
+    def __init__(self, _TokenList, _outputStream):
         self.TokenList = _TokenList
+        self.outputStream = _outputStream
 
     def _ConstructOutput(self, CommandType, token, *args):
         """Generates input to Format output as a tuple of """
@@ -94,14 +95,16 @@ class RoboteqCommander:
 
     def _FormatOutput(self, _args):
         """Generates data chunk that gets sent as an argument to SubmitOutput"""
-        output = ''
-        for i in _args:
-            output += i
-        return output
+        CommandType, tokenString, *args = _args
+        CommandOutput = [tokenString]
+        CommandOutput.extend(str(v) for v in args)
+        return CommandType + ' '.join(CommandOutput)
+
 
     def _SubmitOutput(self, commandString):
-        """Submits output to controller"""
-        return commandString
+        self.outputStream.write(commandString + "\n")
+        controllerResponse = self.outputStream.readline()
+        return controllerResponse
 
     def Command(self, CommandType, token, *args):
         """Accesor method for calling the full Construct->Format->Submit stack"""
@@ -127,45 +130,3 @@ class RoboteqCommander:
     def getConfig(self, token, *args):
         submitToken = self.TokenList[token].Identity
         return self.Command('~',  token, *args)
-
-
-
-# TODO include safety for checking if read/write is allowed for output stream.
-class RoboteqStreamCommander(RoboteqCommander):
-    """Roboteq Commander serves as the generic commander implementation for serial streamed commands to the a Roboteq Device. It by default outputs everythingto a generic IO stream using read/write python paradigms"""
-
-    def __init__(self, _TokenList, _outputStream):
-        super(RoboteqStreamCommander, self).__init__(_TokenList)
-
-        self.outputStream = _outputStream
-
-        return
-
-    # command to call runtime commands
-    def setCommand(self, token, *args):
-        return self.Command('!', token, *args)
-
-    # command to call runtime queries
-    def getValue(self, token, *args):
-        return self.Command('?', token, *args)
-
-    # command to set configuration settings
-    def setConfig(self, token, *args):
-        return self.Command('^',  token, *args)
-
-    # function to get configuration settings
-    def getConfig(self, token, *args):
-        submitToken = self.TokenList[token].Identity
-        return self.Command('~',  token, *args)
-
-    def _FormatOutput(self, _args):
-        """Generates data chunk that gets sent as an argument to SubmitOutput"""
-        CommandType, tokenString, *args = _args
-        CommandOutput = [tokenString]
-        CommandOutput.extend(str(v) for v in args)
-        return CommandType + ' '.join(CommandOutput)
-
-    def _SubmitOutput(self, commandString):
-        self.outputStream.write(commandString + "\n")
-        controllerResponse = self.outputStream.readline()
-        return controllerResponse

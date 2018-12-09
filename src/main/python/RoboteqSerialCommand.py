@@ -6,7 +6,7 @@ import io
 
 #General purpose commander on a StringIO object.
 #Can use this class to mock behavior of RoboteQ command classes in Unittests
-class RoboteqSerialCommander(RoboteqCommand.RoboteqStreamCommander):
+class RoboteqSerialCommander(RoboteqCommand.RoboteqCommander):
 
 
     @classmethod

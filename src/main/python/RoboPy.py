@@ -44,8 +44,6 @@ class MotorController():
 
         # connect to a Device
 
-    controller = RoboteqCommander(RoboteqCommandLibrary())
-
     # connect to a Device
 
     def connect(self,*serialargs):

@@ -17,13 +17,6 @@ class RoboteqSerialCommander(RoboteqCommand.RoboteqCommander):
         Serialcommander1 = cls(_TokenList, sio)
         return Serialcommander1
 
-    def _FormatOaautput(self, _args):
-        """Generates data chunk that gets sent as an argument to SubmitOutput"""
-        CommandType, tokenString, *args = _args
-        CommandOutput = [self.TokenList[tokenString].Identity]
-        print(CommandOutput)
-        CommandOutput.extend(str(v) for v in args)
-        return CommandType + ' '.join(CommandOutput)
 
     #TODO Iplement exception raising if there is no response from Roboteq Device, or if somehting else goes wrong with the serial connection.
     def _SubmitOutput(self, commandString):

@@ -16,49 +16,40 @@ class OperatingMode(Enum):
     Closed_Loop_Speed_Position = 6
 
 
-class DiconnectedController(RoboteqCommander):
-    pass
-
-
+class MotorController():
+    """class for our Roboteq Motor Controller"""
 #controller = DisconnectedController()
 
-Config = {'movemode': '_MMOD',
-          'maxspeed': '_MXRPM',
-          'minspeed': '_MNRPM',
-          'acceleration': '_AC',
-          'decceleration': '_DC'}
+    def __init__(self):
+        self.commander = None
+        self.config = {'movemode': '_MMOD',
+                       'maxspeed': '_MXRPM',
+                       'minspeed': '_MNRPM',
+                       'acceleration': '_AC',
+                       'decceleration': '_DC'}
 
+        self.SpeedandAcceleration = {'movemode': OperatingMode.Open_Loop,
+                                     'maxspeed': 0,
+                                     'minspeed': 0,
+                                     'acceleration': 0,
+                                     'decceleration': 0}
 
-SpeedandAcceleration = {'movemode': OperatingMode.Open_Loop,
-                        'maxspeed': 0,
-                        'minspeed': 0,
-                        'acceleration': 0,
-                        'decceleration': 0}
+    # TODO colate all tables automatically
 
+    def ReadConfig(self):
+        """Reads all the configration settings from various dicts
+        """
+        for k in self.SpeedandAcceleration.keys():
+            self.SpeedandAcceleration[k] = self.commander.getConfig(self.config[k])
 
-Channel1 = SpeedandAcceleration
-
-# TODO colate all tables automatically
-
-
-def ReadConfig():
-    """Reads all the configration settings from various dicts
-    """
-    for k in SpeedandAcceleration.keys():
-        SpeedandAcceleration[k] = controller.getConfig(Config[k])
+        # connect to a Device
 
     # connect to a Device
 
-
-controller = RoboteqCommander(RoboteqCommandLibrary())
-
-# connect to a Device
-
-
-def connect():
-    try:
-        tokenList = RoboteqCPPImporter.RoboteqImport('Constants.h')
-        controller = RoboteqSerialCommander.connectOverRS232(tokenList)
-    except serial.SerialException:
-        return 'Device not Found'
-    return 'Device Connected'
+    def connect(self,*serialargs):
+        try:
+            tokenList = RoboteqCPPImporter.RoboteqImport('Constants.h')
+            self.commander = RoboteqSerialCommander.connectOverRS232(tokenList, *serialargs)
+        except serial.SerialException:
+            return 'Device not Found'
+        return 'Device Connected'

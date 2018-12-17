@@ -9,7 +9,8 @@ sys.path = ["../"] + sys.path
 # TODO move Roboteq Importer to its own module
 class RoboteqCommandImporter():
     """Blank base class for all file importer to inherit from
-    By default, it imports serialized python data directly with eval(). So we can print a dictionary and it will"""
+    By default, it imports serialized python data directly
+    with eval(). So we can print a dictionary and it will"""
     # We have to give the importer the source of all the commands to be imported
     # This can be a file name or a
 
@@ -63,7 +64,6 @@ class RoboteqCPPImporter(RoboteqCommandImporter):
                  # The formatting of the print statement comes from the round about way that values are #defined in the Roboteq CPP install_dependencies
                  # Their identity string is defined as a decimal representation of their HEX valueself.
                  # we need to do all of that conversion here in order to make this work with Roboteq Command Generator.
-                RoboteqCommandDict[command[0]] = RoboteqCommand(
-                    command[0], int(command[1]))
+                 RoboteqCommandDict[command[0]] = RoboteqCommand(command[0][1:], int(command[1]))
 
         return RoboteqCommandDict

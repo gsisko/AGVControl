@@ -1,4 +1,3 @@
-from __future__ import absolute_import
 from RoboteqCommand import RoboteqCommand, RoboteqCommander, RoboteqCommandLibrary
 from RoboteqSerialCommand import RoboteqSerialCommander
 from RoboteqCPPimporter import RoboteqCPPImporter
@@ -17,28 +16,28 @@ class OperatingMode(Enum):
     Closed_Loop_Speed_Position = 6
 
 
-class MotorController(object):
-    u"""class for our Roboteq Motor Controller"""
+class MotorController():
+    """class for our Roboteq Motor Controller"""
 #controller = DisconnectedController()
 
     def __init__(self):
         self.commander = None
-        self.config = {u'movemode': u'_MMOD',
-                       u'maxspeed': u'_MXRPM',
-                       u'minspeed': u'_MNRPM',
-                       u'acceleration': u'_AC',
-                       u'decceleration': u'_DC'}
+        self.config = {'movemode': '_MMOD',
+                       'maxspeed': '_MXRPM',
+                       'minspeed': '_MNRPM',
+                       'acceleration': '_AC',
+                       'decceleration': '_DC'}
 
-        self.SpeedandAcceleration = {u'movemode': OperatingMode.Open_Loop,
-                                     u'maxspeed': 0,
-                                     u'minspeed': 0,
-                                     u'acceleration': 0,
-                                     u'decceleration': 0}
+        self.SpeedandAcceleration = {'movemode': OperatingMode.Open_Loop,
+                                     'maxspeed': 0,
+                                     'minspeed': 0,
+                                     'acceleration': 0,
+                                     'decceleration': 0}
 
     # TODO colate all tables automatically
 
     def ReadConfig(self):
-        u"""Reads all the configration settings from various dicts
+        """Reads all the configration settings from various dicts
         """
         for k in self.SpeedandAcceleration.keys():
             self.SpeedandAcceleration[k] = self.commander.getConfig(self.config[k])
@@ -49,8 +48,8 @@ class MotorController(object):
 
     def connect(self,*serialargs):
         try:
-            tokenList = RoboteqCPPImporter.RoboteqImport(u'Constants.h')
+            tokenList = RoboteqCPPImporter.RoboteqImport('Constants.h')
             self.commander = RoboteqSerialCommander.connectOverRS232(tokenList, *serialargs)
         except serial.SerialException:
-            return u'Device not Found'
-        return u'Device Connected'
+            return 'Device not Found'
+        return 'Device Connected'

@@ -1,17 +1,14 @@
 #!/usr/bin/python
-from __future__ import with_statement
-from __future__ import absolute_import
 from RoboteqCommand import RoboteqCommand, RuntimeCommand, RuntimeQuery, ConfigSetting
 import CppHeaderParser
 import sys
-from io import open
 # set sys in order to be able to locate header fileself.
-sys.path = [u"../"] + sys.path
+sys.path = ["../"] + sys.path
 
 
 # TODO move Roboteq Importer to its own module
-class RoboteqCommandImporter(object):
-    u"""Blank base class for all file importer to inherit from
+class RoboteqCommandImporter():
+    """Blank base class for all file importer to inherit from
     By default, it imports serialized python data directly
     with eval(). So we can print a dictionary and it will"""
     # We have to give the importer the source of all the commands to be imported
@@ -22,7 +19,7 @@ class RoboteqCommandImporter(object):
 
     # gernates command dictionary from printed dictionary value, should be overwriten
     def generateCommandDict(self):
-        with open(self.Path, u'r') as Source:
+        with open(self.Path, 'r') as Source:
             commandDict = eval(Source.read())
             # TODO Check that code actually evaluates to a dictionary
             # TODO will have to change If I can't build it into a custom datastructure.
@@ -41,7 +38,7 @@ class RoboteqCommandImporter(object):
 
 
 class RoboteqCPPImporter(RoboteqCommandImporter):
-    u"""sub class of Roboteq Comand importer for importing from header files from the RoboteQ C++ install_dependencies
+    """sub class of Roboteq Comand importer for importing from header files from the RoboteQ C++ install_dependencies
     In these headers, commands are given as a series of defines in the form of:
     #define CMDSTR BASE10HEXID
     CMDSTR: the command's roboteq identity string. This is the string you use in microbasic.
@@ -52,15 +49,15 @@ class RoboteqCPPImporter(RoboteqCommandImporter):
 
         try:
             self.cppHeader = CppHeaderParser.CppHeader(self.Path)
-        except CppHeaderParser.CppParseError, e:
-            print u'CppHeaderParser encountered Error:' + e
+        except CppHeaderParser.CppParseError as e:
+            print('CppHeaderParser encountered Error:' + e)
 
     def generateCommandDict(self):
 
         RoboteqCommandDict = dict()
 
         for define in self.cppHeader.defines:
-            command = define.split(u' ')
+            command = define.split(' ')
             if len(command) == 2:
                  # TODO try to optimize this code to perform proper data access for fast operation.
                  # TODO there is definitely a better way to do the string formatting in python

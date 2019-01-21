@@ -6,7 +6,6 @@ python:
 
 install:
         - pip install pybuilder
-        - pip install pytest==2.5.0
         - pyb install_dependencies
         - pyb install
 script:

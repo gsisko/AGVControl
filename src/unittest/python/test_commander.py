@@ -39,14 +39,8 @@ class RoboteqCommanderFixture(unittest.TestCase):
 class TestRoboteqCommanderMethods(RoboteqCommanderFixture):
 
     def test_SubmitCommand(self):
-
-        #test Cases for command cosntruction
-        self.assertEqual(self.commander._ConstructOutput(u'!',u'_G', 1, 300), (u'!', u'G', 1, 300))
-        #test sending a normal motor CommandDictionary
-        self.assertEqual(self.commander._FormatOutput((u"!",u'G', 1, 300)), u'!G 1 300')
-        #test multiple arguments case
-        self.assertEqual(self.commander._FormatOutput((u"!",u'G', 1, 300, 300)), u'!G 1 300 300')
-
+        pass
+    #TODO implement Command test
 
     #test output of Getcommand
     #TODO: Implement context manager to clear TestStreamBuffer between tests

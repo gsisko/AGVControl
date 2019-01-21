@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 from io import StringIO
-from enum import Enum, auto
+from enum import Enum
 
 
 # TODO consider changing name of this away from the command since it generates confusing conflict with runtime command
@@ -87,34 +87,22 @@ class RoboteqCommander(object):
         self.TokenList = _TokenList
         self.outputStream = _outputStream
 
-    def _ConstructOutput(self, CommandType, token, *args):
-        u"""Generates input to Format output as a tuple of """
-        output = u''
-
-        output = self.TokenList[token].Identity
-        return (CommandType, output, *args)
-
-    def _FormatOutput(self, _args):
-        u"""Generates data chunk that gets sent as an argument to SubmitOutput"""
-        _3to2list = list(_args)
-        CommandType, tokenString, args, = _3to2list[:2] + [_3to2list[2:]]
-        CommandOutput = [tokenString]
-        CommandOutput.extend(unicode(v) for v in args)
-        return CommandType + u' '.join(CommandOutput)
-
-
-    def _SubmitOutput(self, commandString):
-        self.outputStream.write(commandString + u"\n")
-        controllerResponse = self.outputStream.readline()
-        return controllerResponse
-
     def Command(self, CommandType, token, *args):
-        u"""Accesor method for calling the full Construct->Format->Submit stack"""
+        """Ancestor method for calling the full Construct->Format->Submit stack"""
         try:
-            return self._SubmitOutput(self._FormatOutput(self._ConstructOutput(CommandType, token, *args)))
+            tokenString = ''
+
+            tokenString = self.TokenList[token].Identity
+            CommandOutput = [tokenString]
+            CommandOutput.extend(str(v) for v in args)
+            commandString = CommandType + ' '.join(CommandOutput)
+            self.outputStream.write(commandString + "\n")
+            controllerResponse = self.outputStream.readline()
+            return controllerResponse
         except KeyError, err:
             #TODO make this go into a log isntead
             print u'Key {0} not found in commander libary!'.format(err)
+
 
     # command to call runtime commands
     def setCommand(self, token, *args):

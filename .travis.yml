@@ -13,3 +13,6 @@ install:
         - pyb install
 script:
         - pyb run_unit_tests
+
+after_script:
+        - pyb clean

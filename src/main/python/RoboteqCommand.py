@@ -1,5 +1,5 @@
 from io import StringIO
-from enum import Enum, auto
+from enum import Enum
 
 
 # TODO consider changing name of this away from the command since it generates confusing conflict with runtime command

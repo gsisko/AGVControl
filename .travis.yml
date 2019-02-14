@@ -3,7 +3,7 @@ python:
         #Python 3.6
         - '3.5'
         - '3.6'
-        #- '3.6-dev'  # 3.6 development branch
+        - '3.6-dev'  # 3.6 development branch
 
 install:
         - pip install pybuilder

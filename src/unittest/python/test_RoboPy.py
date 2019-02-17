@@ -11,7 +11,7 @@ import RoboteqCommander from RoboteqCommand
 import RoboPy as rp
 
 class serialTestCommander
-
+    ``
 
 class RpFixture(unittest.TestCase):
 

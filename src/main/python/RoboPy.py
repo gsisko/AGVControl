@@ -18,7 +18,6 @@ class OperatingMode(Enum):
 
 class MotorController():
     """class for our Roboteq Motor Controller"""
-#controller = DisconnectedController()
 
     def __init__(self):
         self.commander = None
@@ -53,3 +52,23 @@ class MotorController():
         except serial.SerialException:
             return 'Device not Found'
         return 'Device Connected'
+
+    def HeadingCMD(self, throttle, steering):
+        """
+        Send a navigation heading consisting of a rotational speed command {steering} and a 
+        linear speed command {throttle}.  
+        """
+        self.commander.setCommand('_G', 1, throttle)
+        self.commander.setCommand('_G', 2, steering)
+
+    def motorCMD(self, channel, cmd):
+        """
+        Send a command to a RoboteQ motor channel
+        """
+        self.commander.setCommand('_G',channel, cmd)
+
+    def setupDiffDrive(self):
+        """
+        Set up the controller configuration for a differential drive.
+        """
+        self.commander.setConfig('_MXMD', 1)

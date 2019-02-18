@@ -6,9 +6,10 @@ python:
         #- '3.6-dev'  # 3.6 development branch
 
 install:
+        - pip install -U pip
         - pip install pybuilder
-        #- pip install pytest
-        #- pip install coverage
+        - pip install -U pytest
+        - pip install -U coverage
         - pyb install_dependencies
         - pyb install
 script:

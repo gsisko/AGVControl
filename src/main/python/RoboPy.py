@@ -71,4 +71,4 @@ class MotorController():
         """
         Set up the controller configuration for a differential drive.
         """
-        send a command to a motor channel
+        self.commander.setConfig('_MXMD', 1)

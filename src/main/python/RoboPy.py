@@ -60,3 +60,15 @@ class MotorController():
         """
         self.commander.setCommand('_G', 1, throttle)
         self.commander.setCommand('_G', 2, steering)
+
+    def motorCMD(self, channel, cmd):
+        """
+        Send a command to a RoboteQ motor channel
+        """
+        self.commander.setCommand('_G',channel, cmd)
+
+    def setupDiffDrive(self):
+        """
+        Set up the controller configuration for a differential drive.
+        """
+        send a command to a motor channel

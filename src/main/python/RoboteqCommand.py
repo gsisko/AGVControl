@@ -100,7 +100,6 @@ class RoboteqCommander:
         CommandOutput.extend(str(v) for v in args)
         return CommandType + ' '.join(CommandOutput)
 
-
     def _SubmitOutput(self, commandString):
         self.outputStream.write(commandString + "\n")
         controllerResponse = self.outputStream.readline()
@@ -111,7 +110,7 @@ class RoboteqCommander:
         try:
             return self._SubmitOutput(self._FormatOutput(self._ConstructOutput(CommandType, token, *args)))
         except KeyError as err:
-            #TODO make this go into a log isntead
+            # TODO make this go into a log isntead
             print('Key {0} not found in commander libary!'.format(err))
 
     # command to call runtime commands
@@ -128,5 +127,4 @@ class RoboteqCommander:
 
     # function to get configuration settings
     def getConfig(self, token, *args):
-        submitToken = self.TokenList[token].Identity
         return self.Command('~',  token, *args)

@@ -45,7 +45,7 @@ class MotorController():
 
     # connect to a Device
 
-    def connect(self,*serialargs):
+    def connect(self, *serialargs):
         try:
             tokenList = RoboteqCPPImporter.RoboteqImport('Constants.h')
             self.commander = RoboteqSerialCommander.connectOverRS232(tokenList, *serialargs)
@@ -55,8 +55,8 @@ class MotorController():
 
     def HeadingCMD(self, throttle, steering):
         """
-        Send a navigation heading consisting of a rotational speed command {steering} and a 
-        linear speed command {throttle}.  
+        Send a navigation heading consisting of a rotational speed command {steering} and a
+        linear speed command {throttle}.
         """
         self.commander.setCommand('_G', 1, throttle)
         self.commander.setCommand('_G', 2, steering)
@@ -65,7 +65,7 @@ class MotorController():
         """
         Send a command to a RoboteQ motor channel
         """
-        self.commander.setCommand('_G',channel, cmd)
+        self.commander.setCommand('_G', channel, cmd)
 
     def setupDiffDrive(self):
         """

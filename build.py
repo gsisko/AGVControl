@@ -1,4 +1,4 @@
-from pybuilder.core import init, use_plugin
+from pybuilder.core import init, use_plugin, Author
 
 use_plugin("python.core")
 #use_plugin("python.unittest")
@@ -19,7 +19,7 @@ description = """A library that connects to RoboteQ products over USB, or RS232 
                  Further development will focus on helpful funcitons that aid application development as well components that aid in robotics integration.      
               """
 
-authors      = "Gabriel Isko"
+authors      = [Author("Gabriel Isko","gabe.isko@gmail.com")]
 license      = "MIT"
 default_task = "publish"
 

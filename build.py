@@ -19,7 +19,7 @@ description = """A library that connects to RoboteQ products over USB, or RS232 
                  Further development will focus on helpful funcitons that aid application development as well components that aid in robotics integration.      
               """
 
-authors      = [Author("Gabriel Isko", "gabe.isko@gmail.com")]
+authors      = "Gabriel Isko"
 license      = "MIT"
 default_task = "publish"
 

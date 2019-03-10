@@ -22,7 +22,7 @@ deploy:
         provider: pypi
         user: gsisko
         password:
-                secure: "UQn3PI4toogWgxfyZqybxeAdp4uqy1AnOiTPEP2wvVx6EsbfGzzn+fsZrubS2Kao31Bmhi3QiRvvZHGkfuQZ5epsEaiKxgWCz8LTZbwrHq0c+dZUGT65Q5gHleMGGWy7Dbk/Fv7vyB5234ozgxXJyWn3zA0lu2/Zi0+iHzH5DQxClihVteJCLR+gWl2e8KfnVVFrG7r9Fu9iZZBcXEVRkPQQE8j/yHQKQnsxZqTcta8yxR7rSWHUgYIFqesumPYoSiJpG+wL4aJpeJ01fDOGnkIZE7fN4/oEAaQYvK9C+jvuSJLLH85OYUeCp+m085dRwwSvn7Kh6xL0nRlZtg26AWapp/oji9VH6yyF5mJS8zLdtaskR6GgCx0GAMOiwz8sg0DJ3SbRJdnLwg8Doep48yWDk1nOKmCHoQcouxLz1UkgoxzhKe1u5LRx1LSeX9IsblmFTiwtu6kwUzu4Fo5vUUghJDJ0sMyJAbc+w42S15EJGl8P0f6+r61B5G9WbJyL5ybiKFshnIeU3lbiS3Ux/4EOb5LJvTDQiZ52tAFoix578qFZRCk+pStLJdxaFCiaPCXS2uNZe7cc/kBW/2/6o7I+oNimTsiFnDGQzx2JQRC2k2lUA/FaxGkVPhcgB5/9K/w4Z35X3Rn4LUTlbwAlQlrnmLvVGCyeU6jCjlyrB0c="
+                secure: "f1AfXBNIelVgFMf0k5EnaGynopBgbAnVlhWBCxAjutxyY5pHl1iZircsNAbg4O/wlsc7Uz0TTuBlBdjSAgH7Mikys9VdUuhN5bAV1p60xhFeSMh+Td021kU2QhwFrKlghKLL5lO9umlqfISBPt9iW2g9cBfg1JIbg6spBUrKqgr711GhxB3R/xmmdUSd0KztAHCLBKjYH97Z/UqbrWejLxetEFfpRASB7sO4KK8ENrJh6Ivi1AAPzfXLj/p6q9zcA/Jk5/4b8V7Gap5Qa8JWzwbdHU/JvW63A5CIU16WQsfmBiGpDGT/OxsXiu15/LScj2tMpUN5mGcXBJ7vw5vFBpemdCimwOg0Q8jowHegRdzdYSWMn4L1xGAIXgPKKgiJgUTZ2o9UxWXofQ35zRAJC7rfnYf062egCPcVs5WlDauoqProGOdCDBm6qZBArYBr+HqPanRhEtbG2FYmrPrR0Hqajt3d3OX4vocYWJSniBC9sAZoY/cdG5X7Tr8J9hlAijdsowRpwj9C2fOJY/t4CIIM5ryWpIr811d4ZxHAXhMvEeauW+IwFkZNYTLZJs2aZK8HFlKHKH5EZvYtN+H330edyw5uSQzhP1ujniB95yo5zR9I7fPFHrZ8lpDgnb12jX61ZQoZC7na+eWRjZlZhAlVuPtWhVmur13D6YIyoIM="
         on:
                 branch: master
         skip_existing: true

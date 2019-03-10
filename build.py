@@ -35,6 +35,9 @@ def initialize(project):
     #project.set_property('coverage_reset_modules', True)
     #project.set_property("coverage_break_build", False) # default is True
 
+   #Set publish properties
+    project.set_property('distutils_upload_repository','test.pypi.org/') 
+
     project.build_depends_on('pytest')
     project.build_depends_on('mockito')
     project.build_depends_on('coverage')

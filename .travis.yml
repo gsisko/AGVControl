@@ -14,6 +14,10 @@ script:
 after_script:
 - pyb clean
 
+before_deploy:
+#need to switch to target directory for travis to find setup.py
+- cd target/dist/RoboteQPy* 
+
 deploy:
         provider: pypi
         user: gsisko
